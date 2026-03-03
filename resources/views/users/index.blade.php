@@ -82,19 +82,21 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium mb-2 text-slate-600">
-                                Superior
-                            </label>
-                            <select name="parent_id"
-                                    class="border border-slate-200 rounded-xl px-4 py-2.5 w-full text-sm focus:ring-2 focus:ring-slate-300 outline-none">
-                                <option value="">Sin superior</option>
-                                @foreach(\App\Models\User::all() as $u)
-                                    <option value="{{ $u->id }}">
-                                        {{ $u->name }} ({{ $u->role }})
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+    <label class="block text-sm font-medium mb-2 text-slate-600">
+        Superior
+    </label>
+    <select name="parent_id"
+            class="border border-slate-200 rounded-xl px-4 py-2.5 w-full text-sm focus:ring-2 focus:ring-slate-300 outline-none">
+        <option value="">Sin superior</option>
+
+        @foreach(\App\Models\User::whereIn('role', ['admin','jefe','supervisor'])->get() as $u)
+            <option value="{{ $u->id }}">
+                {{ $u->name }} ({{ $u->role }})
+            </option>
+        @endforeach
+
+    </select>
+</div>
 
                     </div>
 

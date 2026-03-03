@@ -3,23 +3,38 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User; // 👈 agrega esta línea
+use App\Models\User;
 
 class Lead extends Model
 {
- protected $fillable = [
+    protected $fillable = [
+       'ruc',
+    'razon_social',
     'nombre',
-    'telefono',
-    'email',   // 👈 ESTO debe existir
-    'status',
-    'owner_id',
-    'parent_id',
-    'root_id',
-    'created_by'
-];
+    'dni',
+    'segmento',
 
-public function owner()
-{
-    return $this->belongsTo(User::class, 'owner_id');
-}
+    'telefono1',
+    'telefono2',
+    'telefono3',
+    'telefono4',
+    'telefono5',
+
+    'email',
+    'comentarios',
+
+    'status',
+    'tipificacion',
+
+    'owner_id',
+    'created_by',
+    'root_id',
+    'parent_id',
+    ];
+
+    // Relación con el asesor
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 }

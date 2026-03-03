@@ -165,24 +165,43 @@ public function index()
     }
 
     // ================= ASESOR =================
-    if ($user->role === 'asesor') {
+if ($user->role === 'asesor') {
 
-        $leadsNuevos = Lead::where('owner_id', $user->id)
-            ->whereNull('tipificacion')
-            ->paginate(10, ['*'], 'nuevos');
+    $baseQuery = Lead::where('owner_id', $user->id);
 
-        $leadsTrabajados = Lead::where('owner_id', $user->id)
-            ->whereNotNull('tipificacion')
-            ->paginate(10, ['*'], 'trabajados');
+    // Leads nuevos (sin tipificar)
+    $leadsNuevos = (clone $baseQuery)
+        ->whereNull('tipificacion')
+        ->paginate(10, ['*'], 'nuevos');
 
-        $total = Lead::where('owner_id', $user->id)->count();
+    // Leads trabajados (tipificados)
+    $leadsTrabajados = (clone $baseQuery)
+        ->whereNotNull('tipificacion')
+        ->paginate(10, ['*'], 'trabajados');
 
-        return view('dashboards.asesor', compact(
-            'leadsNuevos',
-            'leadsTrabajados',
-            'total'
-        ));
-    }
+    // Contadores para el dashboard
+    $total = (clone $baseQuery)->count();
+
+    $trabajados = (clone $baseQuery)
+        ->where('status', 'trabajado')
+        ->count();
+
+    $pendientes = (clone $baseQuery)
+        ->where(function ($q) {
+            $q->whereNull('status')
+              ->orWhere('status', 'nuevo')
+              ->orWhere('status', 'asignado');
+        })
+        ->count();
+
+    return view('dashboards.asesor', compact(
+        'leadsNuevos',
+        'leadsTrabajados',
+        'total',
+        'trabajados',
+        'pendientes'
+    ));
+}
 
     abort(403);
 }
