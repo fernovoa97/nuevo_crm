@@ -32,9 +32,10 @@ class LeadController extends Controller
 
         $lead = Lead::findOrFail($id);
 
-        $lead->tipificacion = $request->tipificacion;
-        $lead->status = 'trabajado';
-        $lead->save();
+       $lead->tipificacion = $request->tipificacion;
+$lead->status = 'trabajado';
+$lead->fecha_tipificacion = now();
+$lead->save();
 
         return back()->with('success', 'Tipificado');
     }
@@ -106,21 +107,24 @@ class LeadController extends Controller
             ->limit($request->cantidad)
             ->get();
 
-        foreach ($leads as $lead) {
+      foreach ($leads as $lead) {
 
-            if ($user->role === 'admin' && $lead->root_id === null) {
-                $lead->root_id = $destino->id;
-                $lead->parent_id = $destino->id;
-            }
+    if ($user->role === 'admin' && $lead->root_id === null) {
+        $lead->root_id = $destino->id;
+        $lead->parent_id = $destino->id;
+    }
 
-            if ($user->role === 'jefe') {
-                $lead->parent_id = $destino->id;
-            }
+    if ($user->role === 'jefe') {
+        $lead->parent_id = $destino->id;
+    }
 
-            $lead->owner_id = $destino->id;
-            $lead->status = 'asignado';
-            $lead->save();
-        }
+    $lead->owner_id = $destino->id;
+    $lead->status = 'asignado';
+
+    $lead->fecha_asignacion = now(); // 👈 ESTA LINEA ES LA CLAVE
+
+    $lead->save();
+}
 
         return redirect()->route('dashboard')
             ->with('success', 'Leads asignados correctamente');

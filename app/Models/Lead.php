@@ -8,29 +8,32 @@ use App\Models\User;
 class Lead extends Model
 {
     protected $fillable = [
-       'ruc',
-    'razon_social',
-    'nombre',
-    'dni',
-    'segmento',
+'ruc',
+'razon_social',
+'nombre',
+'dni',
+'segmento',
 
-    'telefono1',
-    'telefono2',
-    'telefono3',
-    'telefono4',
-    'telefono5',
+'telefono1',
+'telefono2',
+'telefono3',
+'telefono4',
+'telefono5',
 
-    'email',
-    'comentarios',
+'email',
+'comentarios',
 
-    'status',
-    'tipificacion',
+'status',
+'tipificacion',
 
-    'owner_id',
-    'created_by',
-    'root_id',
-    'parent_id',
-    ];
+'owner_id',
+'created_by',
+'root_id',
+'parent_id',
+
+'fecha_asignacion',
+'fecha_tipificacion'
+];
 
     // Relación con el asesor
     public function owner()

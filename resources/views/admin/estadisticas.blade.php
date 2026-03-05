@@ -11,6 +11,7 @@
                 <th>Asignados</th>
                 <th>Trabajados</th>
                 <th>Productividad</th>
+                
             </tr>
 
             @foreach($estadisticas as $item)

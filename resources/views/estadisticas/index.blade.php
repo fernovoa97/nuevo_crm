@@ -81,6 +81,8 @@
                                 <th class="border p-2">Asesor</th>
                                 <th class="border p-2">Asignados</th>
                                 <th class="border p-2">Trabajados</th>
+                                <th class="border p-2">Última asignación</th>
+<th class="border p-2">Cantidad última</th>
                                 <th class="border p-2">Avance</th>
                             </tr>
                         </thead>
@@ -99,8 +101,18 @@
                                     <td class="border p-2">
                                         {{ $item->total_trabajados }}
                                     </td>
+                                    <td class="border p-2">
+    {{ $item->ultima_asignacion 
+        ? \Carbon\Carbon::parse($item->ultima_asignacion)->format('d-m-Y') 
+        : '-' }}
+</td>
+
+<td class="border p-2">
+    {{ $item->cantidad_ultima ?? 0 }}
+</td>
 
                                     <td class="border p-2">
+                                        
     @php
         $porcentaje = $item->total_asignados > 0
             ? round(($item->total_trabajados / $item->total_asignados) * 100, 1)

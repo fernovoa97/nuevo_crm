@@ -167,11 +167,11 @@
                 <th class="p-3 text-left">Segmento</th>
                 <th class="p-3 text-left">Nombre</th>
                 <th class="p-3 text-left">DNI</th>
-                <th class="p-3 text-left">Teléfono 1</th>
-                <th class="p-3 text-left">Teléfono 2</th>
-                <th class="p-3 text-left">Teléfono 3</th>
-                <th class="p-3 text-left">Teléfono 4</th>
-                <th class="p-3 text-left">Teléfono 5</th>
+                <th class="p-3 text-left">Telf 1</th>
+                <th class="p-3 text-left">Telf 2</th>
+                <th class="p-3 text-left">Telf 3</th>
+                <th class="p-3 text-left">Telf 4</th>
+                <th class="p-3 text-left">Telf 5</th>
                 <th class="p-3 text-left">Correo</th>
                 <th class="p-3 text-left">Status</th>
                 <th class="p-3 text-left">Asignado a</th>

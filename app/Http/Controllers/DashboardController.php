@@ -14,6 +14,13 @@ class DashboardController extends Controller
     // ================= ESTADÍSTICAS =================
     public function estadisticas(Request $request)
     {
+
+        $ultimaAsignacion = Lead::select(
+        'owner_id',
+        DB::raw('MAX(fecha_asignacion) as ultima_fecha')
+    )
+    ->groupBy('owner_id');
+
         $user = auth()->user();
 
         // ================= FILTROS =================
@@ -52,23 +59,57 @@ class DashboardController extends Controller
         }
 
         // filtro por supervisor (solo jefe)
-        if ($supervisor && $user->role === 'jefe') {
-            $queryUsuarios = $queryUsuarios->where('parent_id', $supervisor);
-        }
+       if ($supervisor) {
+    $queryUsuarios = $queryUsuarios->where('parent_id', $supervisor);
+}
 
         $usuariosIds = $queryUsuarios->pluck('id');
 
         // ================= ESTADÍSTICAS =================
-        $estadisticas = User::whereIn('users.id', $usuariosIds)
-            ->leftJoin('leads', 'users.id', '=', 'leads.owner_id')
-            ->select(
-                'users.id',
-                'users.name',
-                DB::raw('COUNT(leads.id) as total_asignados'),
-                DB::raw("SUM(CASE WHEN leads.tipificacion IS NOT NULL THEN 1 ELSE 0 END) as total_trabajados")
-            )
-            ->groupBy('users.id', 'users.name')
-            ->get();
+      $estadisticas = User::whereIn('users.id', $usuariosIds)
+
+    ->leftJoin('leads', function ($join) use ($desde, $hasta) {
+
+        $join->on('users.id', '=', 'leads.owner_id');
+
+        if ($desde) {
+            $join->where('leads.fecha_asignacion', '>=', $desde);
+        }
+
+        if ($hasta) {
+            $join->where('leads.fecha_asignacion', '<=', $hasta);
+        }
+
+    })
+
+    ->leftJoinSub($ultimaAsignacion, 'ua', function ($join) {
+        $join->on('users.id', '=', 'ua.owner_id');
+    })
+
+    ->select(
+        'users.id',
+        'users.name',
+
+        DB::raw('COUNT(leads.id) as total_asignados'),
+
+        DB::raw("SUM(CASE WHEN leads.tipificacion IS NOT NULL THEN 1 ELSE 0 END) as total_trabajados"),
+
+        DB::raw('MAX(ua.ultima_fecha) as ultima_asignacion'),
+
+        DB::raw("
+            SUM(
+                CASE 
+                    WHEN leads.fecha_asignacion = ua.ultima_fecha 
+                    THEN 1 
+                    ELSE 0 
+                END
+            ) as cantidad_ultima
+        ")
+
+    )
+
+    ->groupBy('users.id', 'users.name')
+    ->get();
 
         // ================= LISTAS PARA FILTROS =================
         $jefes = collect();
