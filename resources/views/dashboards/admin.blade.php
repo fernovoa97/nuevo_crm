@@ -118,44 +118,54 @@
                 </div>
             </div>
 
-            <!-- Formulario Asignación -->
-            
-            <div class="bg-white rounded-2xl shadow-sm p-6">
-                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-            Asignación
-        </p>
-                <form method="POST"
-                      action="{{ route('leads.asignar') }}"
-                      class="flex flex-wrap items-center gap-4">
+            <!-- FORMULARIO ASIGNACIÓN CON BUSCADOR -->
+<div class="bg-white rounded-2xl shadow-sm p-6">
 
-                    @csrf
+    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        Asignación
+    </p>
 
-                    <select name="user_id"
-                            required
-                            class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-slate-300 outline-none">
-                        @foreach(\App\Models\User::where('role', '!=', 'admin')->get() as $user)
-                            <option value="{{ $user->id }}">
-                                {{ $user->name }} ({{ $user->role }})
-                            </option>
-                        @endforeach
-                    </select>
+    <form method="POST" action="{{ route('leads.asignar') }}" id="form-asignar" class="flex flex-wrap items-center gap-4">
 
-                    <input type="number"
-                           name="cantidad"
-                           placeholder="Cantidad"
-                           required
-                           min="1"
-                           class="border border-slate-200 rounded-xl px-4 py-2.5 w-32 text-sm focus:ring-2 focus:ring-slate-300 outline-none">
+        @csrf
 
-                    <button type="submit"
-                            class="bg-slate-800 hover:bg-slate-900 
-                                   text-white px-5 py-2.5 
-                                   rounded-xl text-sm font-semibold 
-                                   transition duration-200 shadow-sm">
-                        Asignar Leads
-                    </button>
-                </form>
-            </div>
+        <!-- BUSCADOR DE USUARIO -->
+        <div class="relative">
+            <input list="lista-usuarios"
+                   id="buscar-usuario"
+                   placeholder="Buscar asesor..."
+                   class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm w-64 focus:ring-2 focus:ring-slate-300 outline-none">
+
+            <datalist id="lista-usuarios">
+                @foreach(\App\Models\User::where('role', '!=', 'admin')->get() as $user)
+                    <option value="{{ $user->name }}" data-id="{{ $user->id }}">
+                        {{ $user->role }}
+                    </option>
+                @endforeach
+            </datalist>
+        </div>
+
+        <!-- INPUT OCULTO PARA ID -->
+        <input type="hidden" name="user_id" id="user_id" required>
+
+        <!-- CANTIDAD -->
+        <input type="number"
+               name="cantidad"
+               placeholder="Cantidad"
+               required
+               min="1"
+               class="border border-slate-200 rounded-xl px-4 py-2.5 w-32 text-sm focus:ring-2 focus:ring-slate-300 outline-none">
+
+        <button type="submit"
+                class="bg-slate-800 hover:bg-slate-900 
+                       text-white px-5 py-2.5 
+                       rounded-xl text-sm font-semibold 
+                       transition duration-200 shadow-sm">
+            Asignar Leads
+        </button>
+
+    </form>
+</div>
 
             <!-- Tabla Leads -->
             <div class="overflow-x-auto">
@@ -252,4 +262,24 @@
 
         </div>
     </div>
+
+
+    <script>
+document.getElementById('buscar-usuario').addEventListener('input', function() {
+    let valor = this.value;
+    let options = document.getElementById('lista-usuarios').options;
+    let id = '';
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === valor) {
+            id = options[i].getAttribute('data-id');
+            break;
+        }
+    }
+
+    document.getElementById('user_id').value = id;
+});
+</script>
 </x-app-layout>
+
+
