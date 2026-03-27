@@ -34,48 +34,49 @@ class LeadsImport implements ToCollection, WithHeadingRow
             if (!$leadExistente) {
 
                 Lead::create([
+                    'ruc'          => $ruc,
+                    'razon_social' => $row['razon_social'] ?? null,
+                    'nombre'       => $row['nombre'] ?? null,
+                    'dni'          => $row['dni'] ?? null,
+                    'segmento'     => $row['segmento'] ?? null,
 
-                    'ruc'           => $ruc,
-                    'razon_social'  => $row['razon_social'] ?? null,
-                    'nombre'        => $row['nombre'] ?? null,
-                    'dni'           => $row['dni'] ?? null,
-                    'segmento'      => $row['segmento'] ?? null,
+                    'telefono1'    => $row['telefono1'] ?? null,
+                    'telefono2'    => $row['telefono2'] ?? null,
+                    'telefono3'    => $row['telefono3'] ?? null,
+                    'telefono4'    => $row['telefono4'] ?? null,
+                    'telefono5'    => $row['telefono5'] ?? null,
 
-                    'telefono1'     => $row['telefono1'] ?? null,
-                    'telefono2'     => $row['telefono2'] ?? null,
-                    'telefono3'     => $row['telefono3'] ?? null,
-                    'telefono4'     => $row['telefono4'] ?? null,
-                    'telefono5'     => $row['telefono5'] ?? null,
+                    'email'        => $row['email'] ?? null,
+                    'comentarios'  => $row['comentarios'] ?? null,
 
-                    'email'         => $row['email'] ?? null,
-                    'comentarios'   => $row['comentarios'] ?? null,
+                    'movistar'     => $row['movistar'] ?? 0,
+                    'entel'        => $row['entel']    ?? 0,
+                    'claro'        => $row['claro']    ?? 0,
+                    'bitel'        => $row['bitel']    ?? 0,
 
-                    'status'        => 'nuevo',
-                    'tipificacion'  => null,
+                    'status'       => 'nuevo',
+                    'tipificacion' => null,
 
-                    'owner_id'      => $user->id,
-                    'parent_id'     => $user->id,
-                    'root_id'       => $user->role === 'admin' ? null : $user->id,
-                    'created_by'    => $user->id,
+                    'owner_id'     => $user->id,
+                    'parent_id'    => $user->id,
+                    'root_id'      => $user->role === 'admin' ? null : $user->id,
+                    'created_by'   => $user->id,
                 ]);
 
                 $this->creados++;
-            }
 
             // =========================
-            // ACTUALIZAR TELÉFONOS
+            // ACTUALIZAR
             // =========================
-            else {
+            } else {
 
-                $telefonosExcel = [
+                $telefonosExcel = array_filter([
                     $row['telefono1'] ?? null,
                     $row['telefono2'] ?? null,
                     $row['telefono3'] ?? null,
                     $row['telefono4'] ?? null,
                     $row['telefono5'] ?? null,
-                ];
-
-                $telefonosExcel = array_filter($telefonosExcel);
+                ]);
 
                 $telefonosActuales = [
                     $leadExistente->telefono1,
@@ -88,6 +89,7 @@ class LeadsImport implements ToCollection, WithHeadingRow
                 $actualizado = false;
                 $espacioDisponible = false;
 
+                // Actualizar teléfonos
                 foreach ($telefonosExcel as $telefonoNuevo) {
 
                     if (!in_array($telefonoNuevo, $telefonosActuales)) {
@@ -106,6 +108,15 @@ class LeadsImport implements ToCollection, WithHeadingRow
                         if (!$espacioDisponible) {
                             $this->sinEspacio++;
                         }
+                    }
+                }
+
+                // Actualizar operadoras
+                $operadoras = ['movistar', 'entel', 'claro', 'bitel'];
+                foreach ($operadoras as $operadora) {
+                    if (isset($row[$operadora]) && $row[$operadora] !== null) {
+                        $leadExistente->$operadora = $row[$operadora];
+                        $actualizado = true;
                     }
                 }
 

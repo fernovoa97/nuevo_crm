@@ -18,6 +18,7 @@
                 <option value="jefe" {{ $user->role=='jefe'?'selected':'' }}>Jefe</option>
                 <option value="supervisor" {{ $user->role=='supervisor'?'selected':'' }}>Supervisor</option>
                 <option value="asesor" {{ $user->role=='asesor'?'selected':'' }}>Asesor</option>
+                <option value="mesa_control" {{ $user->role=='mesa_control'?'selected':'' }}>mesa_control</option>
             </select>
 
             <select name="parent_id">

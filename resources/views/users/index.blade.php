@@ -78,6 +78,7 @@
                                 <option value="jefe">Jefe</option>
                                 <option value="supervisor">Supervisor</option>
                                 <option value="asesor">Asesor</option>
+                                <option value="asesor">mesa_control</option>
                             </select>
                         </div>
 
@@ -89,7 +90,7 @@
             class="border border-slate-200 rounded-xl px-4 py-2.5 w-full text-sm focus:ring-2 focus:ring-slate-300 outline-none">
         <option value="">Sin superior</option>
 
-        @foreach(\App\Models\User::whereIn('role', ['admin','jefe','supervisor'])->get() as $u)
+        @foreach(\App\Models\User::whereIn('role', ['admin','jefe','supervisor','mesa_control'])->get() as $u)
             <option value="{{ $u->id }}">
                 {{ $u->name }} ({{ $u->role }})
             </option>

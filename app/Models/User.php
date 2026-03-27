@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Lead; // 👈 agrega esta línea arriba
 
 class User extends Authenticatable
 {
@@ -16,8 +14,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',       // 👈 agrega esto
-        'parent_id',  // 👈 agrega esto
+        'role',
+        'parent_id',
     ];
 
     protected $hidden = [
@@ -29,11 +27,9 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
-
-    // 🔥 RELACIONES (agrega esto debajo del casts)
 
     public function parent()
     {
@@ -50,5 +46,13 @@ class User extends Authenticatable
         return $this->hasMany(Lead::class, 'owner_id');
     }
 
-    
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'asesor_id');
+    }
+
+    public function notificaciones()
+    {
+        return $this->hasMany(Notificacion::class);
+    }
 }

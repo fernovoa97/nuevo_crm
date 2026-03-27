@@ -104,78 +104,69 @@
             </div>
 
             <!-- Tabla Leads -->
-<div class="bg-white rounded-2xl shadow-sm p-6">
+            <div class="bg-white rounded-2xl shadow-sm p-6">
 
-    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-4">
-        Leads del Equipo
-    </p>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-4">
+                    Leads del Equipo
+                </p>
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full text-sm text-slate-700">
-            <thead class="bg-slate-100 text-slate-600">
-                <tr>
-                    <th class="p-3 text-left">RUC</th>
-                    <th class="p-3 text-left">Razón Social</th>
-                    <th class="p-3 text-left">Segmento</th>
-                    <th class="p-3 text-left">Nombre</th>
-                    <th class="p-3 text-left">DNI</th>
-                    <th class="p-3 text-left">Teléfono 1</th>
-                    <th class="p-3 text-left">Teléfono 2</th>
-                    <th class="p-3 text-left">Teléfono 3</th>
-                    <th class="p-3 text-left">Teléfono 4</th>
-                    <th class="p-3 text-left">Teléfono 5</th>
-                    <th class="p-3 text-left">Correo</th>
-                    <th class="p-3 text-left">Status</th>
-                    <th class="p-3 text-left">Asignado a</th>
-                </tr>
-            </thead>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-slate-700">
+                        <thead class="bg-slate-100 text-slate-600">
+                            <tr>
+                                <th class="p-3 text-left">RUC</th>
+                                <th class="p-3 text-left">Razón Social</th>
+                                <th class="p-3 text-left">Segmento</th>
+                                <th class="p-3 text-left">Nombre</th>
+                                <th class="p-3 text-left">DNI</th>
+                                <th class="p-3 text-left">Teléfono 1</th>
+                                <th class="p-3 text-left">Teléfono 2</th>
+                                <th class="p-3 text-left">Teléfono 3</th>
+                                <th class="p-3 text-left">Teléfono 4</th>
+                                <th class="p-3 text-left">Teléfono 5</th>
+                                <th class="p-3 text-left">Movistar</th>
+                                <th class="p-3 text-left">Entel</th>
+                                <th class="p-3 text-left">Claro</th>
+                                <th class="p-3 text-left">Bitel</th>
+                                <th class="p-3 text-left">Correo</th>
+                                <th class="p-3 text-left">Status</th>
+                                <th class="p-3 text-left">Asignado a</th>
+                            </tr>
+                        </thead>
 
-            <tbody class="divide-y divide-slate-100">
-                @foreach($leads as $lead)
-                    <tr class="hover:bg-slate-50 transition">
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach($leads as $lead)
+                                <tr class="hover:bg-slate-50 transition">
 
-                        <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->segmento ?? '-' }}</td>
+                                    <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
+                                    <td class="p-3 font-medium">{{ $lead->dni ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->telefono1 ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->telefono2 ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->telefono3 ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->telefono4 ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->telefono5 ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->movistar ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->entel ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->claro ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->bitel ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->email ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->status ?? 'Pendiente' }}</td>
+                                    <td class="p-3">{{ $lead->owner?->name ?? 'Sin asignar' }}</td>
 
-                        <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-                        <td class="p-3">{{ $lead->segmento ?? '-' }}</td>
+                <div class="mt-6">
+                    {{ $leads->links() }}
+                </div>
 
-                        <td class="p-3 font-medium">
-                            {{ $lead->nombre ?? '-' }}
-                        </td>
-
-                        <td class="p-3 font-medium">
-                            {{ $lead->dni ?? '-' }}
-                        </td>
-
-                        <td class="p-3">{{ $lead->telefono1 ?? '-' }}</td>
-                        <td class="p-3">{{ $lead->telefono2 ?? '-' }}</td>
-                        <td class="p-3">{{ $lead->telefono3 ?? '-' }}</td>
-                        <td class="p-3">{{ $lead->telefono4 ?? '-' }}</td>
-                        <td class="p-3">{{ $lead->telefono5 ?? '-' }}</td>
-
-                        <td class="p-3">{{ $lead->email ?? '-' }}</td>
-
-                        <td class="p-3">
-                            {{ $lead->status ?? 'Pendiente' }}
-                        </td>
-
-                        <td class="p-3">
-                            {{ $lead->owner?->name ?? 'Sin asignar' }}
-                        </td>
-
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Paginación -->
-    <div class="mt-6">
-        {{ $leads->links() }}
-    </div>
-
-</div>
+            </div>
 
         </div>
     </div>

@@ -8,278 +8,284 @@
     <div class="py-10 bg-slate-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @if(session('success'))
-    <div class="bg-emerald-100 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-2xl shadow-sm">
-        {{ session('success') }}
-    </div>
-@endif
+                <div class="bg-emerald-100 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-2xl shadow-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- Panel Superior -->
-<div class="flex flex-col md:flex-row gap-6">
+            <div class="flex flex-col md:flex-row gap-6">
 
-    <!-- Saludo -->
-    <div class="flex-1 bg-white rounded-2xl shadow-sm p-6">
-        <p class="text-slate-700 text-lg">
-            Bienvenido, <strong>{{ auth()->user()->name }}</strong>
-        </p>
-        <p class="text-sm text-slate-500 mt-1">
-            Panel de administración general
-        </p>
-    </div>
+                <!-- Saludo -->
+                <div class="flex-1 bg-white rounded-2xl shadow-sm p-6">
+                    <p class="text-slate-700 text-lg">
+                        Bienvenido, <strong>{{ auth()->user()->name }}</strong>
+                    </p>
+                    <p class="text-sm text-slate-500 mt-1">
+                        Panel de administración general
+                    </p>
+                </div>
 
-    <!-- Administración -->
-    <div class="flex-1 bg-white rounded-2xl shadow-sm p-6 flex flex-col justify-center">
-        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-            Administración
-        </p>
+                <!-- Administración -->
+                <div class="flex-1 bg-white rounded-2xl shadow-sm p-6 flex flex-col justify-center">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+                        Administración
+                    </p>
+                    <a href="{{ route('users.index') }}"
+                       class="bg-slate-800 hover:bg-slate-900
+                              text-white px-5 py-2.5
+                              rounded-xl text-sm font-semibold
+                              transition duration-200 shadow-sm w-fit">
+                        Gestionar Usuarios
+                    </a>
+                </div>
 
-        <a href="{{ route('users.index') }}"
-           class="bg-slate-800 hover:bg-slate-900 
-                  text-white px-5 py-2.5 
-                  rounded-xl text-sm font-semibold 
-                  transition duration-200 shadow-sm w-fit">
-            Gestionar Usuarios
-        </a>
-    </div>
+                <!-- Cargar datos -->
+                <div class="flex-1 bg-white rounded-2xl shadow-sm p-6">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+                        Cargar datos
+                    </p>
+                    <form method="POST"
+                          action="{{ route('leads.importar') }}"
+                          enctype="multipart/form-data"
+                          class="flex items-center gap-3 flex-wrap">
+                        @csrf
+                        <input type="file"
+                               name="archivo"
+                               required
+                               class="block text-sm text-slate-600
+                                      file:py-2 file:px-4
+                                      file:rounded-xl file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-slate-100 file:text-slate-700
+                                      hover:file:bg-slate-200 transition" />
+                        <button type="submit"
+                                class="bg-slate-700 hover:bg-slate-800
+                                       text-white px-4 py-2
+                                       rounded-xl text-sm font-semibold
+                                       transition duration-200 shadow-sm">
+                            Subir
+                        </button>
+                    </form>
+                </div>
 
-    <!-- Cargar datos -->
-    <div class="flex-1 bg-white rounded-2xl shadow-sm p-6">
-        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-            Cargar datos
-        </p>
+            </div>
 
-        <form method="POST"
-              action="{{ route('leads.importar') }}"
-              enctype="multipart/form-data"
-              class="flex items-center gap-3 flex-wrap">
-
-            @csrf
-
-            <input type="file"
-                   name="archivo"
-                   required
-                   class="block text-sm text-slate-600
-                          file:py-2 file:px-4
-                          file:rounded-xl file:border-0
-                          file:text-sm file:font-semibold
-                          file:bg-slate-100 file:text-slate-700
-                          hover:file:bg-slate-200 transition" />
-
-            <button type="submit"
-                    class="bg-slate-700 hover:bg-slate-800
-                           text-white px-4 py-2
-                           rounded-xl text-sm font-semibold
-                           transition duration-200 shadow-sm">
-                Subir
-            </button>
-
-        </form>
-    </div>
-
-</div>
-
-<!-- Estadísticas -->
-<div class="flex-1 bg-white rounded-2xl shadow-sm p-6 flex flex-col justify-center">
-    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-        Reportes
-    </p>
-
-    <a href="{{ url('/estadisticas') }}"
-       class="bg-emerald-600 hover:bg-emerald-700 
-              text-white px-5 py-2.5 
-              rounded-xl text-sm font-semibold 
-              transition duration-200 shadow-sm w-fit">
-        Ver Estadísticas
-    </a>
-
-    <p class="text-sm text-slate-500 mt-3">
-        Visualiza métricas generales y rendimiento del equipo.
-    </p>
-</div>
+            <!-- Estadísticas -->
+            <div class="flex-1 bg-white rounded-2xl shadow-sm p-6 flex flex-col justify-center">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+                    Reportes
+                </p>
+                <a href="{{ url('/estadisticas') }}"
+                   class="bg-emerald-600 hover:bg-emerald-700
+                          text-white px-5 py-2.5
+                          rounded-xl text-sm font-semibold
+                          transition duration-200 shadow-sm w-fit">
+                    Ver Estadísticas
+                </a>
+                <p class="text-sm text-slate-500 mt-3">
+                    Visualiza métricas generales y rendimiento del equipo.
+                </p>
+            </div>
 
             <!-- Contadores -->
             <div class="bg-white rounded-2xl shadow-sm p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-
                     <div class="bg-slate-50 rounded-xl p-4">
                         <p class="text-sm text-slate-500">Total Leads</p>
                         <p class="text-2xl font-bold text-slate-800">{{ $total }}</p>
                     </div>
-
                     <div class="bg-slate-50 rounded-xl p-4">
                         <p class="text-sm text-slate-500">Asignados</p>
                         <p class="text-2xl font-bold text-slate-800">{{ $asignados }}</p>
                     </div>
-
                     <div class="bg-slate-50 rounded-xl p-4">
                         <p class="text-sm text-slate-500">Libres</p>
                         <p class="text-2xl font-bold text-slate-800">{{ $libres }}</p>
                     </div>
-
                 </div>
             </div>
 
-            <!-- FORMULARIO ASIGNACIÓN CON BUSCADOR -->
-<div class="bg-white rounded-2xl shadow-sm p-6">
+            <!-- Formulario Asignación -->
+            <div class="bg-white rounded-2xl shadow-sm p-6">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
+                    Asignación
+                </p>
+                <form method="POST" action="{{ route('leads.asignar') }}" id="form-asignar" class="flex flex-wrap items-center gap-4">
+                    @csrf
+                    <div class="relative">
+                        <input list="lista-usuarios"
+                               id="buscar-usuario"
+                               placeholder="Buscar asesor..."
+                               class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm w-64 focus:ring-2 focus:ring-slate-300 outline-none">
+                        <datalist id="lista-usuarios">
+                            @foreach(\App\Models\User::where('role', '!=', 'admin')->get() as $user)
+                                <option value="{{ $user->name }}" data-id="{{ $user->id }}">
+                                    {{ $user->role }}
+                                </option>
+                            @endforeach
+                        </datalist>
+                    </div>
+                    <input type="hidden" name="user_id" id="user_id" required>
+                    <input type="number"
+                           name="cantidad"
+                           placeholder="Cantidad"
+                           required
+                           min="1"
+                           class="border border-slate-200 rounded-xl px-4 py-2.5 w-32 text-sm focus:ring-2 focus:ring-slate-300 outline-none">
+                    <button type="submit"
+                            class="bg-slate-800 hover:bg-slate-900
+                                   text-white px-5 py-2.5
+                                   rounded-xl text-sm font-semibold
+                                   transition duration-200 shadow-sm">
+                        Asignar Leads
+                    </button>
+                </form>
+            </div>
 
-    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">
-        Asignación
-    </p>
+            <!-- ================= BANDEJA: SIN NÚMERO VÁLIDO ================= -->
+            @if($leadsSinNumero->count() > 0)
+            <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-red-400">
 
-    <form method="POST" action="{{ route('leads.asignar') }}" id="form-asignar" class="flex flex-wrap items-center gap-4">
+                <p class="text-xs font-semibold text-red-400 uppercase tracking-wide mb-4">
+                    ⚠ Leads sin número válido ({{ $leadsSinNumero->count() }})
+                </p>
 
-        @csrf
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-slate-700">
+                        <thead class="bg-red-50 text-slate-600">
+                            <tr>
+                                <th class="p-3 text-left">RUC</th>
+                                <th class="p-3 text-left">Razón Social</th>
+                                <th class="p-3 text-left">Nombre</th>
+                                <th class="p-3 text-left">Teléfonos actuales</th>
+                                <th class="p-3 text-left">Actualizar teléfonos</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @foreach($leadsSinNumero as $lead)
+                                <tr class="hover:bg-red-50 transition">
 
-        <!-- BUSCADOR DE USUARIO -->
-        <div class="relative">
-            <input list="lista-usuarios"
-                   id="buscar-usuario"
-                   placeholder="Buscar asesor..."
-                   class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm w-64 focus:ring-2 focus:ring-slate-300 outline-none">
+                                    <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                    <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                    <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
 
-            <datalist id="lista-usuarios">
-                @foreach(\App\Models\User::where('role', '!=', 'admin')->get() as $user)
-                    <option value="{{ $user->name }}" data-id="{{ $user->id }}">
-                        {{ $user->role }}
-                    </option>
-                @endforeach
-            </datalist>
-        </div>
+                                    <!-- Teléfonos actuales tachados -->
+                                    <td class="p-3">
+                                        <div class="flex flex-col gap-1">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($lead->{"telefono$i"})
+                                                    <span class="text-xs font-mono px-2 py-0.5 rounded-lg bg-red-100 text-red-400 line-through">
+                                                        {{ $lead->{"telefono$i"} }}
+                                                    </span>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </td>
 
-        <!-- INPUT OCULTO PARA ID -->
-        <input type="hidden" name="user_id" id="user_id" required>
+                                    <!-- Formulario para actualizar teléfonos -->
+                                    <td class="p-3">
+                                        <form method="POST"
+                                              action="{{ route('leads.actualizarTelefonos', $lead->id) }}"
+                                              class="flex flex-col gap-1">
+                                            @csrf
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <input type="text"
+                                                       name="telefono{{ $i }}"
+                                                       placeholder="Teléfono {{ $i }}"
+                                                       value="{{ $lead->{'telefono'.$i} }}"
+                                                       class="border border-slate-200 rounded-lg px-2 py-1 text-xs w-36 focus:ring-2 focus:ring-slate-300 outline-none">
+                                            @endfor
+                                            <button type="submit"
+                                                    class="mt-1 bg-slate-700 hover:bg-slate-800
+                                                           text-white px-3 py-1
+                                                           rounded-lg text-xs font-semibold
+                                                           transition duration-200 w-fit">
+                                                Actualizar
+                                            </button>
+                                        </form>
+                                    </td>
 
-        <!-- CANTIDAD -->
-        <input type="number"
-               name="cantidad"
-               placeholder="Cantidad"
-               required
-               min="1"
-               class="border border-slate-200 rounded-xl px-4 py-2.5 w-32 text-sm focus:ring-2 focus:ring-slate-300 outline-none">
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-        <button type="submit"
-                class="bg-slate-800 hover:bg-slate-900 
-                       text-white px-5 py-2.5 
-                       rounded-xl text-sm font-semibold 
-                       transition duration-200 shadow-sm">
-            Asignar Leads
-        </button>
-
-    </form>
-</div>
+            </div>
+            @endif
 
             <!-- Tabla Leads -->
             <div class="overflow-x-auto">
-    <table class="min-w-full text-sm text-slate-700">
-        <thead class="bg-slate-100 text-slate-600">
-            <tr>
-                <th class="p-3 text-left">RUC</th>
-                <th class="p-3 text-left">Razón Social</th>
-                <th class="p-3 text-left">Segmento</th>
-                <th class="p-3 text-left">Nombre</th>
-                <th class="p-3 text-left">DNI</th>
-                <th class="p-3 text-left">Telf 1</th>
-                <th class="p-3 text-left">Telf 2</th>
-                <th class="p-3 text-left">Telf 3</th>
-                <th class="p-3 text-left">Telf 4</th>
-                <th class="p-3 text-left">Telf 5</th>
-                <th class="p-3 text-left">Correo</th>
-                <th class="p-3 text-left">Status</th>
-                <th class="p-3 text-left">Asignado a</th>
-                
-            </tr>
-        </thead>
+                <table class="min-w-full text-sm text-slate-700">
+                    <thead class="bg-slate-100 text-slate-600">
+                        <tr>
+                            <th class="p-3 text-left">RUC</th>
+                            <th class="p-3 text-left">Razón Social</th>
+                            <th class="p-3 text-left">Segmento</th>
+                            <th class="p-3 text-left">Nombre</th>
+                            <th class="p-3 text-left">DNI</th>
+                            <th class="p-3 text-left">Telf 1</th>
+                            <th class="p-3 text-left">Telf 2</th>
+                            <th class="p-3 text-left">Telf 3</th>
+                            <th class="p-3 text-left">Telf 4</th>
+                            <th class="p-3 text-left">Telf 5</th>
+                            <th class="p-3 text-left">Movistar</th>
+                            <th class="p-3 text-left">Entel</th>
+                            <th class="p-3 text-left">Claro</th>
+                            <th class="p-3 text-left">Bitel</th>
+                            <th class="p-3 text-left">Correo</th>
+                            <th class="p-3 text-left">Status</th>
+                            <th class="p-3 text-left">Asignado a</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach($leads as $lead)
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->segmento ?? '-' }}</td>
+                                <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
+                                <td class="p-3 font-medium">{{ $lead->dni ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->telefono1 ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->telefono2 ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->telefono3 ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->telefono4 ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->telefono5 ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->movistar ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->entel ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->claro ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->bitel ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->email ?? '-' }}</td>
+                                <td class="p-3">{{ $lead->status ?? 'Pendiente' }}</td>
+                                <td class="p-3">{{ $lead->owner?->name ?? 'Sin asignar' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-        <tbody class="divide-y divide-slate-100">
-            @foreach($leads as $lead)
-                <tr class="hover:bg-slate-50 transition">
-
-                    <td class="p-3">
-                        {{ $lead->ruc ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->razon_social ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->segmento ?? '-' }}
-                    </td>
-
-                    <td class="p-3 font-medium">
-                        {{ $lead->nombre ?? '-' }}
-                    </td>
-
-                    <td class="p-3 font-medium">
-                        {{ $lead->dni ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->telefono1 ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->telefono2 ?? '-' }}
-                    </td>
-                    
-                    <td class="p-3">
-                        {{ $lead->telefono3 ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->telefono4 ?? '-' }}
-                    </td>
-                    <td class="p-3">
-                        {{ $lead->telefono5 ?? '-' }}
-                    </td>
-
-                    
-                    <td class="p-3">
-                        {{ $lead->email ?? '-' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->status ?? 'Pendiente' }}
-                    </td>
-
-                    <td class="p-3">
-                        {{ $lead->owner?->name ?? 'Sin asignar' }}
-                    </td>
-
-                    
-
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-
-                <!-- Paginación -->
-                <div class="mt-6">
-                    {{ $leads->links() }}
-                </div>
-
+            <!-- Paginación -->
+            <div class="mt-6">
+                {{ $leads->links() }}
             </div>
 
         </div>
     </div>
 
-
     <script>
-document.getElementById('buscar-usuario').addEventListener('input', function() {
-    let valor = this.value;
-    let options = document.getElementById('lista-usuarios').options;
-    let id = '';
+        document.getElementById('buscar-usuario').addEventListener('input', function() {
+            let valor = this.value;
+            let options = document.getElementById('lista-usuarios').options;
+            let id = '';
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].value === valor) {
+                    id = options[i].getAttribute('data-id');
+                    break;
+                }
+            }
+            document.getElementById('user_id').value = id;
+        });
+    </script>
 
-    for (let i = 0; i < options.length; i++) {
-        if (options[i].value === valor) {
-            id = options[i].getAttribute('data-id');
-            break;
-        }
-    }
-
-    document.getElementById('user_id').value = id;
-});
-</script>
 </x-app-layout>
-
-
