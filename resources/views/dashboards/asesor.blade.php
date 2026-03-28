@@ -70,12 +70,8 @@
                             @foreach($leadsNuevos as $lead)
                                 <tr class="hover:bg-slate-50 transition" id="lead-row-{{ $lead->id }}">
                                     <td class="p-3">
-                                        <div class="flex gap-1">
-                                            <button onclick="abrirModal({{ $lead->id }}, '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}', '{{ $lead->segmento }}', '{{ $lead->telefono1 }}', '{{ $lead->telefono2 }}', '{{ $lead->telefono3 }}', '{{ $lead->telefono4 }}', '{{ $lead->telefono5 }}', '{{ $lead->email }}', '{{ addslashes($lead->comentarios) }}', {{ $lead->movistar ?? 0 }}, {{ $lead->entel ?? 0 }}, {{ $lead->claro ?? 0 }}, {{ $lead->bitel ?? 0 }})"
-                                                class="bg-slate-600 hover:bg-slate-700 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">✏</button>
-                                            <button onclick="abrirModalSeguimiento({{ $lead->id }})"
-                                                class="bg-amber-500 hover:bg-amber-600 text-white px-2 py-1 rounded-lg text-xs font-semibold transition" title="Agendar seguimiento">📅</button>
-                                        </div>
+                                        <button onclick="abrirModal({{ $lead->id }}, '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}', '{{ $lead->segmento }}', '{{ $lead->telefono1 }}', '{{ $lead->telefono2 }}', '{{ $lead->telefono3 }}', '{{ $lead->telefono4 }}', '{{ $lead->telefono5 }}', '{{ $lead->email }}', '{{ addslashes($lead->comentarios) }}', {{ $lead->movistar ?? 0 }}, {{ $lead->entel ?? 0 }}, {{ $lead->claro ?? 0 }}, {{ $lead->bitel ?? 0 }})"
+                                            class="bg-slate-600 hover:bg-slate-700 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">✏</button>
                                     </td>
                                     <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
                                     <td class="p-3 whitespace-nowrap max-w-[250px] truncate">{{ $lead->razon_social ?? '-' }}</td>
@@ -107,16 +103,23 @@
                                     <td class="p-3">{{ $lead->claro ?? '-' }}</td>
                                     <td class="p-3">{{ $lead->bitel ?? '-' }}</td>
                                     <td class="p-3">
-                                        <form method="POST" action="{{ route('leads.tipificar', $lead->id) }}" class="flex gap-2">
+                                        <form method="POST"
+                                              action="{{ route('leads.tipificar', $lead->id) }}"
+                                              class="flex gap-2 form-tipificacion"
+                                              data-lead-id="{{ $lead->id }}">
                                             @csrf
-                                            <select name="tipificacion" required class="border border-slate-200 rounded-xl px-3 py-1 text-xs focus:ring-2 focus:ring-slate-300 outline-none">
+                                            <select name="tipificacion" required
+                                                    class="border border-slate-200 rounded-xl px-3 py-1 text-xs focus:ring-2 focus:ring-slate-300 outline-none">
                                                 <option value="">Seleccionar</option>
                                                 <option value="Propuesta enviada">Propuesta enviada</option>
                                                 <option value="No interesado">No interesado</option>
                                                 <option value="Número incorrecto">Número incorrecto</option>
                                                 <option value="Volver a llamar">Volver a llamar</option>
                                             </select>
-                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-xl text-xs transition">Guardar</button>
+                                            <button type="submit"
+                                                    class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-xl text-xs transition">
+                                                Guardar
+                                            </button>
                                         </form>
                                     </td>
                                     <td class="p-3">{{ $lead->email ?? '-' }}</td>
@@ -137,7 +140,6 @@
                     <table class="min-w-full text-sm text-slate-700">
                         <thead class="bg-amber-50 text-slate-600">
                             <tr>
-                                <th class="p-3 text-left">Acciones</th>
                                 <th class="p-3 text-left">RUC</th>
                                 <th class="p-3 text-left">Razón Social</th>
                                 <th class="p-3 text-left">Nombre</th>
@@ -149,10 +151,6 @@
                         <tbody class="divide-y divide-slate-100">
                             @foreach($leadsSeguimiento as $lead)
                                 <tr class="hover:bg-amber-50 transition">
-                                    <td class="p-3">
-                                        <button onclick="abrirModalSeguimiento({{ $lead->id }}, '{{ $lead->fecha_seguimiento?->format('Y-m-d\TH:i') }}')"
-                                            class="bg-amber-500 hover:bg-amber-600 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">📅</button>
-                                    </td>
                                     <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
                                     <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
                                     <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
@@ -165,7 +163,9 @@
                                             @endfor
                                         </div>
                                     </td>
-                                    <td class="p-3 font-semibold text-amber-600">{{ $lead->fecha_seguimiento?->format('d/m/Y H:i') ?? '-' }}</td>
+                                    <td class="p-3 font-semibold text-amber-600">
+                                        {{ $lead->fecha_seguimiento?->format('d/m/Y H:i') ?? '-' }}
+                                    </td>
                                     <td class="p-3">{{ $lead->email ?? '-' }}</td>
                                 </tr>
                             @endforeach
@@ -451,7 +451,10 @@
         function marcarTelefono(leadId, numero, estado) {
             fetch(`/leads/${leadId}/marcar-telefono`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
                 body: JSON.stringify({ numero, estado })
             })
             .then(res => res.json())
@@ -486,9 +489,9 @@
             if (e.target === this) cerrarModal();
         });
 
-        function abrirModalSeguimiento(leadId, fechaActual = '') {
+        function abrirModalSeguimiento(leadId) {
             document.getElementById('form-seguimiento').action = `/leads/${leadId}/agendar-seguimiento`;
-            document.getElementById('input-fecha-seguimiento').value = fechaActual;
+            document.getElementById('input-fecha-seguimiento').value = '';
             document.getElementById('modal-seguimiento').classList.remove('hidden');
         }
 
@@ -501,9 +504,9 @@
         });
 
         function abrirModalVenta(leadId, razonSocial, ruc) {
-            document.getElementById('venta-lead-id').value      = leadId;
+            document.getElementById('venta-lead-id').value           = leadId;
             document.getElementById('venta-razon-social').textContent = razonSocial + ' — RUC: ' + ruc;
-            document.getElementById('venta-ruc').value          = ruc;
+            document.getElementById('venta-ruc').value               = ruc;
             document.getElementById('modal-venta').classList.remove('hidden');
         }
 
@@ -513,6 +516,21 @@
 
         document.getElementById('modal-venta').addEventListener('click', function(e) {
             if (e.target === this) cerrarModalVenta();
+        });
+
+        // Interceptar "Volver a llamar" → abrir modal de seguimiento en lugar de submit directo
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.form-tipificacion').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                    const select = form.querySelector('select[name="tipificacion"]');
+                    if (select.value === 'Volver a llamar') {
+                        e.preventDefault();
+                        const leadId = form.getAttribute('data-lead-id');
+                        abrirModalSeguimiento(leadId);
+                    }
+                    // Cualquier otra tipificación se envía normalmente
+                });
+            });
         });
     </script>
 

@@ -9,9 +9,10 @@ use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\VentaController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
-
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
