@@ -197,11 +197,12 @@
                                 <th class="p-3 text-left">Bitel</th>
                                 <th class="p-3 text-left">Correo</th>
                                 <th class="p-3 text-left">Tipificación</th>
+                                <th class="p-3 text-left">Retipificar</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
                             @foreach($leadsTrabajados as $lead)
-                                <tr class="hover:bg-slate-50 transition">
+                                <tr class="hover:bg-slate-50 transition {{ $lead->tipificacion === 'No interesado' ? 'bg-red-50' : '' }}">
                                     <td class="p-3">
                                         <button onclick="abrirModal({{ $lead->id }}, '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}', '{{ $lead->segmento }}', '{{ $lead->telefono1 }}', '{{ $lead->telefono2 }}', '{{ $lead->telefono3 }}', '{{ $lead->telefono4 }}', '{{ $lead->telefono5 }}', '{{ $lead->email }}', '{{ addslashes($lead->comentarios) }}', {{ $lead->movistar ?? 0 }}, {{ $lead->entel ?? 0 }}, {{ $lead->claro ?? 0 }}, {{ $lead->bitel ?? 0 }})"
                                             class="bg-slate-600 hover:bg-slate-700 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">✏</button>
@@ -229,7 +230,45 @@
                                     <td class="p-3">{{ $lead->claro ?? '-' }}</td>
                                     <td class="p-3">{{ $lead->bitel ?? '-' }}</td>
                                     <td class="p-3">{{ $lead->email ?? '-' }}</td>
-                                    <td class="p-3 font-semibold">{{ $lead->tipificacion }}</td>
+                                    <td class="p-3">
+                                        @if($lead->tipificacion === 'No interesado')
+                                            <span class="px-2 py-1 rounded-lg text-xs font-semibold bg-red-100 text-red-600">
+                                                No interesado
+                                            </span>
+                                            @php
+                                                $dias = now()->diffInDays($lead->fecha_tipificacion);
+                                                $diasRestantes = 30 - $dias;
+                                            @endphp
+                                            <p class="text-xs text-slate-400 mt-1">
+                                                ⏳ Recicla en {{ $diasRestantes }} día(s)
+                                            </p>
+                                        @else
+                                            <span class="font-semibold">{{ $lead->tipificacion }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="p-3">
+                                        @if($lead->tipificacion === 'No interesado')
+                                            <form method="POST"
+                                                  action="{{ route('leads.tipificar', $lead->id) }}"
+                                                  class="flex gap-2 form-tipificacion"
+                                                  data-lead-id="{{ $lead->id }}">
+                                                @csrf
+                                                <select name="tipificacion" required
+                                                        class="border border-slate-200 rounded-xl px-3 py-1 text-xs focus:ring-2 focus:ring-slate-300 outline-none">
+                                                    <option value="">Retipificar</option>
+                                                    <option value="Propuesta enviada">Propuesta enviada</option>
+                                                    <option value="Número incorrecto">Número incorrecto</option>
+                                                    <option value="Volver a llamar">Volver a llamar</option>
+                                                </select>
+                                                <button type="submit"
+                                                        class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded-xl text-xs transition">
+                                                    Cambiar
+                                                </button>
+                                            </form>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\ProcesarSeguimientos;
-
+use App\Console\Commands\ReciclarNoInteresados; // 👈 agregar esto
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('leads:procesar-seguimientos')->everyMinute();
+        $schedule->command('leads:reciclar-no-interesados')->dailyAt('08:00');
     }
 
     protected function commands()

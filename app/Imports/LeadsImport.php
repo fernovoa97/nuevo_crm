@@ -70,60 +70,28 @@ class LeadsImport implements ToCollection, WithHeadingRow
             // =========================
             } else {
 
-                $telefonosExcel = array_filter([
-                    $row['telefono1'] ?? null,
-                    $row['telefono2'] ?? null,
-                    $row['telefono3'] ?? null,
-                    $row['telefono4'] ?? null,
-                    $row['telefono5'] ?? null,
+                $leadExistente->update([
+                    'razon_social' => $row['razon_social'] ?? $leadExistente->razon_social,
+                    'nombre'       => $row['nombre']       ?? $leadExistente->nombre,
+                    'dni'          => $row['dni']           ?? $leadExistente->dni,
+                    'segmento'     => $row['segmento']      ?? $leadExistente->segmento,
+
+                    'telefono1'    => $row['telefono1']     ?? $leadExistente->telefono1,
+                    'telefono2'    => $row['telefono2']     ?? $leadExistente->telefono2,
+                    'telefono3'    => $row['telefono3']     ?? $leadExistente->telefono3,
+                    'telefono4'    => $row['telefono4']     ?? $leadExistente->telefono4,
+                    'telefono5'    => $row['telefono5']     ?? $leadExistente->telefono5,
+
+                    'email'        => $row['email']         ?? $leadExistente->email,
+                    'comentarios'  => $row['comentarios']   ?? $leadExistente->comentarios,
+
+                    'movistar'     => $row['movistar']      ?? $leadExistente->movistar,
+                    'entel'        => $row['entel']         ?? $leadExistente->entel,
+                    'claro'        => $row['claro']         ?? $leadExistente->claro,
+                    'bitel'        => $row['bitel']         ?? $leadExistente->bitel,
                 ]);
 
-                $telefonosActuales = [
-                    $leadExistente->telefono1,
-                    $leadExistente->telefono2,
-                    $leadExistente->telefono3,
-                    $leadExistente->telefono4,
-                    $leadExistente->telefono5,
-                ];
-
-                $actualizado = false;
-                $espacioDisponible = false;
-
-                // Actualizar teléfonos
-                foreach ($telefonosExcel as $telefonoNuevo) {
-
-                    if (!in_array($telefonoNuevo, $telefonosActuales)) {
-
-                        for ($i = 1; $i <= 5; $i++) {
-                            $campo = "telefono$i";
-
-                            if (!$leadExistente->$campo) {
-                                $leadExistente->$campo = $telefonoNuevo;
-                                $actualizado = true;
-                                $espacioDisponible = true;
-                                break;
-                            }
-                        }
-
-                        if (!$espacioDisponible) {
-                            $this->sinEspacio++;
-                        }
-                    }
-                }
-
-                // Actualizar operadoras
-                $operadoras = ['movistar', 'entel', 'claro', 'bitel'];
-                foreach ($operadoras as $operadora) {
-                    if (isset($row[$operadora]) && $row[$operadora] !== null) {
-                        $leadExistente->$operadora = $row[$operadora];
-                        $actualizado = true;
-                    }
-                }
-
-                if ($actualizado) {
-                    $leadExistente->save();
-                    $this->actualizados++;
-                }
+                $this->actualizados++;
             }
         }
     }
