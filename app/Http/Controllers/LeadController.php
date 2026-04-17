@@ -133,12 +133,13 @@ class LeadController extends Controller
 
         \Maatwebsite\Excel\Facades\Excel::import($import, $request->file('archivo'));
 
-        return back()->with('success',
-            "Importación finalizada: 
-            {$import->creados} creados, 
-            {$import->actualizados} actualizados, 
-            {$import->sinEspacio} sin espacio para teléfonos."
-        );
+        return redirect()->route('leads.index')
+            ->with('success',
+                "Importación finalizada: 
+                {$import->creados} creados, 
+                {$import->actualizados} actualizados, 
+                {$import->sinEspacio} sin espacio para teléfonos."
+            );
     }
 
     public function asignar(Request $request)
