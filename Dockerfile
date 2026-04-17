@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Instalar dependencias necesarias
+# Dependencias
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -23,23 +23,21 @@ RUN apt-get update && apt-get install -y \
         pcntl \
         bcmath
 
-# Instalar Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copiar proyecto
+# App
 WORKDIR /var/www
 COPY . .
 
-# Instalar dependencias Laravel
+# Instalar dependencias
 RUN composer install --optimize-autoloader --no-interaction
 
-RUN php artisan migrate --force
-
-# Permisos Laravel
+# Permisos
 RUN chmod -R 775 storage bootstrap/cache
 
-# Exponer puerto
+# Puerto
 EXPOSE 8080
 
-# Ejecutar Laravel
-CMD php artisan serve --host=0.0.0.0 --port=8080
+# 🚀 Ejecutar TODO al iniciar (esto es la clave)
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
