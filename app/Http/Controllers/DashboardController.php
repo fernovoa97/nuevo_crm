@@ -190,7 +190,13 @@ class DashboardController extends Controller
                 ->paginate(10, ['*'], 'ventas');
 
             $total      = (clone $baseQuery)->count();
-            $trabajados = (clone $baseQuery)->where('status', 'trabajado')->count();
+            $trabajados = (clone $baseQuery)
+                ->where(function ($q) {
+                    $q->whereNotNull('tipificacion')
+                    ->orWhere('status', 'seguimiento')
+                    ->orWhere('status', 'venta');
+                })
+                ->count();
             $pendientes = (clone $baseQuery)->where(function ($q) {
                 $q->whereNull('status')
                   ->orWhere('status', 'nuevo')
