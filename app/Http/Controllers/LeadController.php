@@ -22,7 +22,34 @@ class LeadController extends Controller
             $leads = Lead::where('owner_id', $user->id)->get();
         }
 
-        return view('leads.index', compact('leads'));
+        // =========================
+        // MÉTRICAS DEL ASESOR
+        // =========================
+
+        $total = Lead::where('owner_id', $user->id)->count();
+
+        $trabajados = Lead::where('owner_id', $user->id)
+            ->whereIn('status', [
+                'trabajado',
+                'seguimiento',
+                'venta'
+            ])
+            ->count();
+
+        $pendientes = Lead::where('owner_id', $user->id)
+            ->whereNotIn('status', [
+                'trabajado',
+                'seguimiento',
+                'venta'
+            ])
+            ->count();
+
+        return view('leads.index', compact(
+            'leads',
+            'total',
+            'trabajados',
+            'pendientes'
+        ));
     }
 
     public function tipificar(Request $request, $id)
