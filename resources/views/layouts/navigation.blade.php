@@ -29,6 +29,15 @@
                     </x-nav-link>
                 </div>
             </div>
+            <div x-data="{ time: new Date() }"
+                 x-init="setInterval(() => time = new Date(), 1000)"
+                 class="hidden sm:flex items-center text-sm text-gray-600 font-medium mr-4">
+            
+                📅 <span x-text="time.toLocaleDateString('es-PE')"></span>
+                &nbsp;|&nbsp;
+                🕒 <span x-text="time.toLocaleTimeString('es-PE')"></span>
+            
+            </div>                
 
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-4">
 
