@@ -33,6 +33,8 @@ COPY . .
 # Instalar dependencias Laravel
 RUN composer install --optimize-autoloader --no-interaction
 
+RUN php artisan migrate --force
+
 # Permisos Laravel
 RUN chmod -R 775 storage bootstrap/cache
 
