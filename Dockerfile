@@ -42,9 +42,10 @@ RUN npm run build
 
 # Permisos
 RUN chmod -R 775 storage bootstrap/cache
+RUN chmod +x start.sh
 
 # Puerto
 EXPOSE 8080
 
-# Arranque: migrar y servir
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+# Arranque
+CMD ["bash", "start.sh"]
