@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\VentaController;
 
+Route::get('/leads', [LeadController::class, 'index'])->name('leads.index');
+
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
