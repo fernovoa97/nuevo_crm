@@ -1,5 +1,7 @@
 FROM php:8.2-fpm
 
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
+
 # Instalar dependencias
 RUN apt-get update && apt-get install -y \
     git \
