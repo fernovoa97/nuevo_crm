@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('leads:procesar-seguimientos')->everyMinute();
-        $schedule->command('leads:reciclar-no-interesados')->dailyAt('08:00');
+        $schedule->command('leads:reciclar-no-interesados')->everyMinute();
+
     }
 
     protected function commands()

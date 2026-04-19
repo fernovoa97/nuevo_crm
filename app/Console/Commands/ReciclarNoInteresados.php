@@ -13,7 +13,7 @@ class ReciclarNoInteresados extends Command
     public function handle()
     {
         $leads = Lead::where('tipificacion', 'No interesado')
-            ->where('fecha_tipificacion', '<=', Carbon::now()->subDays(30))
+            ->where('fecha_tipificacion', '<=', Carbon::now()->subMinutes(1))
             ->get();
 
         foreach ($leads as $lead) {
