@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('leads:procesar-seguimientos')->everyMinute();
+Schedule::command('leads:reciclar-no-interesados')->everyMinute();
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
