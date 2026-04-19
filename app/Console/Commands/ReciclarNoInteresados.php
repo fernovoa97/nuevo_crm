@@ -26,7 +26,7 @@ class ReciclarNoInteresados extends Command
             ->get();
 
         foreach ($leads as $lead) {
-            $lead->owner_id          = null; // o el ID fijo del admin
+            $lead->owner_id = User::where('role', 'admin')->first()->id;
             $lead->parent_id         = null;
             $lead->root_id           = null;
             $lead->status            = 'nuevo';
