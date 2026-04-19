@@ -12,6 +12,15 @@ class ReciclarNoInteresados extends Command
 
     public function handle()
     {
+        \Log::info('Job reciclar ejecutado: ' . Carbon::now());
+            
+            $leads = Lead::where('tipificacion', 'No interesado')
+                ->where('fecha_tipificacion', '<=', Carbon::now()->subMinutes(1))
+                ->get();
+
+            \Log::info('Leads encontrados: ' . $leads->count());
+            // ...
+
         $leads = Lead::where('tipificacion', 'No interesado')
             ->where('fecha_tipificacion', '<=', Carbon::now()->subMinutes(1))
             ->get();
