@@ -191,10 +191,10 @@
                                 <th class="p-3 text-left">Nombre</th>
                                 <th class="p-3 text-left">DNI</th>
                                 <th class="p-3 text-left">Teléfonos</th>
-                                <th class="p-3 text-left">Movistar</th>
-                                <th class="p-3 text-left">Entel</th>
-                                <th class="p-3 text-left">Claro</th>
-                                <th class="p-3 text-left">Bitel</th>
+                                <th class="p-3 text-left">M</th>
+                                <th class="p-3 text-left">E</th>
+                                <th class="p-3 text-left">C</th>
+                                <th class="p-3 text-left">B</th>
                                 <th class="p-3 text-left">Correo</th>
                                 <th class="p-3 text-left">Tipificación</th>
                                 <th class="p-3 text-left">Retipificar</th>
