@@ -118,7 +118,7 @@
     .login-card {
       position: absolute;
       top: 50%;
-      right: 9%;
+      right: 50%;
       transform: translateY(-50%);
       width: 340px;
       background: rgba(255,255,255,0.10);
