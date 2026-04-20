@@ -8,7 +8,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\VentaController;
 
-
+Route::get('/health', function () {
+    return response('OK', 200);
+});
 
 Route::get('/', function () {
     return auth()->check()
