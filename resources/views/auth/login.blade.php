@@ -49,10 +49,10 @@
     }
 
     /* Cambia estas URLs por las tuyas */
-    .slide-1 { background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&auto=format&fit=crop'); }
-    .slide-2 { background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1400&auto=format&fit=crop'); }
-    .slide-3 { background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1400&auto=format&fit=crop'); }
-    .slide-4 { background-image: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1400&auto=format&fit=crop'); }
+    .slide-1 { background-image: url('{{ asset('images/fotogari.png') }}'); }
+    .slide-2 { background-image: url('{{ asset('images/paseo.png') }}'); }
+    .slide-3 { background-image: url('{{ asset('images/cumpleaños.png') }}'); }
+    .slide-4 { background-image: url('{{ asset('images/aniversario.png') }}'); }
 
     /* ── DOTS ── */
     .dots {
@@ -119,7 +119,7 @@
       position: absolute;
       top: 50%;
       right: 50%;
-      transform: translateY(-50%);
+      transform: translate(50%, -50%);
       width: 340px;
       background: rgba(255,255,255,0.10);
       backdrop-filter: blur(20px);
@@ -264,10 +264,8 @@
   <div class="login-card">
     <div class="brand">
       <div class="brand-logo">
-        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 14l4-5 3 3.5 3-4.5 4 6H3z" fill="#1a1a1a"/>
-        </svg>
-      </div>
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;" />
+        </div>
       <h2>Bienvenido</h2>
       <p>Ingresa a tu cuenta para continuar</p>
     </div>
