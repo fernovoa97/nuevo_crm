@@ -81,7 +81,7 @@
                           text-white px-5 py-2.5
                           rounded-xl text-sm font-semibold
                           transition duration-200 shadow-sm w-fit">
-                    Ver Estadísticas
+                    Ver Estadísticaas
                 </a>
                 <p class="text-sm text-slate-500 mt-3">
                     Visualiza métricas generales y rendimiento del equipo.
