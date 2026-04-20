@@ -36,6 +36,10 @@ class LeadsImport implements ToCollection, WithHeadingRow
                 Lead::create([
                     'ruc'          => $ruc,
                     'razon_social' => $row['razon_social'] ?? null,
+                    'giro'         => $row['giro'] ?? null,
+                    'dpto'         => $row['dpto'] ?? null,
+                    'prov'         => $row['prov'] ?? null,
+                    'dist'         => $row['dist'] ?? null,
                     'nombre'       => $row['nombre'] ?? null,
                     'dni'          => $row['dni'] ?? null,
                     'segmento'     => $row['segmento'] ?? null,
@@ -72,6 +76,10 @@ class LeadsImport implements ToCollection, WithHeadingRow
 
                 $leadExistente->update([
                     'razon_social' => $row['razon_social'] ?? $leadExistente->razon_social,
+                    'giro'         => $row['giro'] ?? $leadExistente->giro,
+                    'dpto'         => $row['dpto'] ?? $leadExistente->dpto,
+                    'prov'         => $row['prov'] ?? $leadExistente->prov,
+                    'dist'         => $row['dist'] ?? $leadExistente->dist,
                     'nombre'       => $row['nombre']       ?? $leadExistente->nombre,
                     'dni'          => $row['dni']           ?? $leadExistente->dni,
                     'segmento'     => $row['segmento']      ?? $leadExistente->segmento,

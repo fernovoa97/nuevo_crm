@@ -9,6 +9,10 @@ class Lead extends Model
     protected $fillable = [
         'ruc',
         'razon_social',
+        'giro',      // ← nuevo
+        'dpto',      // ← nuevo
+        'prov',      // ← nuevo
+        'dist',      // ← nuevo
         'nombre',
         'dni',
         'segmento',

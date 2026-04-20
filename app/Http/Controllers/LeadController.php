@@ -123,6 +123,10 @@ class LeadController extends Controller
         Lead::create([
             'ruc'          => $request->ruc,
             'razon_social' => $request->razon_social,
+            'giro'         => $request->giro,
+            'dpto'         => $request->dpto,
+            'prov'         => $request->prov,
+            'dist'         => $request->dist,
             'nombre'       => $request->nombre,
             'dni'          => $request->dni,
             'segmento'     => $request->segmento,
