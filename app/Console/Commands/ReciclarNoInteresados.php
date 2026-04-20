@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Lead;
 use Carbon\Carbon;
+use App\Models\User; // ← agregar esto
 
 class ReciclarNoInteresados extends Command
 {
