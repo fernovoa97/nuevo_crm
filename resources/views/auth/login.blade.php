@@ -52,7 +52,7 @@
     .slide-1 { background-image: url('{{ asset('images/fotogari.png') }}'); }
     .slide-2 { background-image: url('{{ asset('images/paseo.png') }}'); }
     .slide-3 { background-image: url('{{ asset('images/cumpleaños.png') }}'); }
-    .slide-4 { background-image: url('{{ asset('images/aniversario.png') }}'); }
+    .slide-4 { background-image: url('{{ asset('images/aniversario.jpeg') }}'); }
 
     /* ── DOTS ── */
     .dots {
@@ -264,7 +264,7 @@
   <div class="login-card">
     <div class="brand">
       <div class="brand-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;" />
+        <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 10px;" />
         </div>
       <h2>Bienvenido</h2>
       <p>Ingresa a tu cuenta para continuar</p>
