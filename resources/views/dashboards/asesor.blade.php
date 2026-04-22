@@ -411,79 +411,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL VENTA ================= -->
-    <div id="modal-venta" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
-        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl mx-4 max-h-screen overflow-y-auto">
-            <h3 class="text-lg font-bold text-black mb-2">💼 Registrar Venta</h3>
-            <p id="venta-razon-social" class="text-sm text-gray-400 mb-6"></p>
-
-            <form id="form-venta" method="POST" action="{{ route('ventas.store') }}" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <input type="hidden" name="lead_id" id="venta-lead-id">
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Producto</label>
-                        <input type="text" name="producto" required class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Tipo de producto</label>
-                        <input type="text" name="tipo_producto" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">RUC Empresa</label>
-                        <input type="text" name="ruc_empresa" id="venta-ruc" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">DNI Representante</label>
-                        <input type="text" name="dni_representante" id="venta-dni" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">                    </div>
-                    <div class="col-span-2">
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Nombre Representante</label>
-                        <input type="text" name="nombre_representante" id="venta-nombre" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Cargo Fijo (S/)</label>
-                        <input type="number" name="cargo_fijo" step="0.01" min="0" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Cargo Fijo sin IGV (S/)</label>
-                        <input type="number" name="cargo_fijo_sin_igv" step="0.01" min="0" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Líneas Portadas</label>
-                        <input type="number" name="lineas_portadas" min="0" value="0" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Líneas Nuevas</label>
-                        <input type="number" name="lineas_nuevas" min="0" value="0" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-gray-500 uppercase">Supervisor</label>
-                        <select name="supervisor_id" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                            <option value="">Sin supervisor</option>
-                            @foreach(\App\Models\User::where('role', 'supervisor')->get() as $sup)
-                                <option value="{{ $sup->id }}"
-                                    {{ auth()->user()->parent_id == $sup->id ? 'selected' : '' }}>
-                                    {{ $sup->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="text-xs font-semibold text-gray-500 uppercase">Adjuntar archivos (fotos o PDFs)</label>
-                    <input type="file" name="archivos[]" multiple accept=".jpg,.jpeg,.png,.pdf"
-                           class="mt-1 w-full text-sm text-gray-600 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[#e6f7fd] file:text-[#00AEEF] hover:file:bg-[#cceffa] transition">
-                    <p class="text-xs text-gray-400 mt-1">Máximo 5MB por archivo. Formatos: JPG, PNG, PDF</p>
-                </div>
-
-                <div class="flex justify-end gap-3 pt-2">
-                    <button type="button" onclick="cerrarModalVenta()" class="bg-gray-100 hover:bg-gray-200 text-black px-5 py-2 rounded-xl text-sm font-semibold transition">Cancelar</button>
-                    <button type="submit" class="bg-[#00AEEF] hover:bg-[#0099d4] text-white px-5 py-2 rounded-xl text-sm font-semibold transition">Enviar a Mesa de Control</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    @include('ventas.partials.modal-venta')
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
@@ -559,7 +487,56 @@
             if (e.target === this) cerrarModalVenta();
         });
 
+        // ================= NUEVO: LOGICA FORMULARIO =================
+
+        function toggleProducto() {
+            let producto = document.getElementById('producto').value;
+
+            let movil = document.getElementById('bloque-movil');
+            let fija  = document.getElementById('bloque-fija');
+
+            if (movil && fija) {
+                movil.classList.add('hidden');
+                fija.classList.add('hidden');
+
+                if (producto === 'movil') {
+                    movil.classList.remove('hidden');
+                } else if (producto === 'fija') {
+                    fija.classList.remove('hidden');
+                }
+            }
+        }
+
+        function toggleContrato() {
+            let tipoIngreso = document.querySelector('[name="tipo_ingreso"]').value;
+            let contrato = document.getElementById('campo-contrato');
+
+            if (contrato) {
+                if (tipoIngreso === 'ALMACEN PROPIO') {
+                    contrato.classList.remove('hidden');
+                } else {
+                    contrato.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleDescuento() {
+            let descuento = document.querySelector('[name="descuento"]').value;
+            let wf = document.getElementById('campo-wf');
+
+            if (wf) {
+                if (descuento === 'DCTO BAJO PLANTILLA') {
+                    wf.classList.remove('hidden');
+                } else {
+                    wf.classList.add('hidden');
+                }
+            }
+        }
+
+        // ================= EVENTOS =================
         document.addEventListener('DOMContentLoaded', function () {
+
+            // tipificación
             document.querySelectorAll('.form-tipificacion').forEach(function (form) {
                 form.addEventListener('submit', function (e) {
                     const select = form.querySelector('select[name="tipificacion"]');
@@ -570,6 +547,22 @@
                     }
                 });
             });
+
+            // listeners dinámicos
+            document.addEventListener('change', function(e) {
+                if (e.target.id === 'producto') {
+                    toggleProducto();
+                }
+
+                if (e.target.name === 'tipo_ingreso') {
+                    toggleContrato();
+                }
+
+                if (e.target.name === 'descuento') {
+                    toggleDescuento();
+                }
+            });
+
         });
     </script>
 
