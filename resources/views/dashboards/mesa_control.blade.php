@@ -66,7 +66,7 @@
                                     <td class="p-3 font-medium">{{ $venta->asesor->name ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->ruc_empresa ?? $venta->lead->ruc ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->lead->razon_social ?? '-' }}</td>
-                                    <td class="p-3">{{ $venta->producto ?? '-' }}</td>
+                                    <td class="p-3">{{ $venta->tipo_producto ?? '-' }}</td>
                                     <td class="p-3 text-xs">
                                         @if($venta->lineas_portadas) <span class="bg-blue-100 text-blue-600 px-1 rounded">P: {{ $venta->lineas_portadas }}</span> @endif
                                         @if($venta->lineas_nuevas) <span class="bg-emerald-100 text-emerald-600 px-1 rounded">N: {{ $venta->lineas_nuevas }}</span> @endif
@@ -124,7 +124,7 @@
                                     <td class="p-3 font-medium">{{ $venta->asesor->name ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->ruc_empresa ?? $venta->lead->ruc ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->lead->razon_social ?? '-' }}</td>
-                                    <td class="p-3">{{ $venta->producto ?? '-' }}</td>
+                                    <td class="p-3">{{ $venta->tipo_producto ?? '-' }}</td>
                                     <td class="p-3 text-xs font-semibold text-amber-600">{{ $venta->etapa ?? '-' }}</td>
                                     <td class="p-3 text-xs text-red-500">{{ $venta->observaciones ?? '-' }}</td>
                                     <td class="p-3">
@@ -171,7 +171,7 @@
                                     <td class="p-3 font-medium">{{ $venta->asesor->name ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->ruc_empresa ?? $venta->lead->ruc ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->lead->razon_social ?? '-' }}</td>
-                                    <td class="p-3">{{ $venta->producto ?? '-' }}</td>
+                                    <td class="p-3">{{ $venta->tipo_producto ?? '-' }}</td>
                                     <td class="p-3">S/ {{ number_format($venta->cargo_fijo, 2) }}</td>
                                     <td class="p-3 text-xs">
                                         @if($venta->lineas_portadas) <span class="bg-blue-100 text-blue-600 px-1 rounded">P: {{ $venta->lineas_portadas }}</span> @endif
@@ -209,7 +209,7 @@
                                     <td class="p-3 font-medium">{{ $venta->asesor->name ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->ruc_empresa ?? $venta->lead->ruc ?? '-' }}</td>
                                     <td class="p-3">{{ $venta->lead->razon_social ?? '-' }}</td>
-                                    <td class="p-3">{{ $venta->producto ?? '-' }}</td>
+                                    <td class="p-3">{{ $venta->tipo_producto ?? '-' }}</td>
                                     <td class="p-3 text-xs text-red-500">{{ $venta->observaciones ?? '-' }}</td>
                                     <td class="p-3 text-xs text-slate-500">{{ $venta->updated_at->format('d/m/Y H:i') }}</td>
                                 </tr>
