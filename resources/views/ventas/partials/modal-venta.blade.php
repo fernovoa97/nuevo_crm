@@ -3,6 +3,9 @@
 
         <h3 class="text-lg font-bold text-black mb-4">💼 Registrar Venta</h3>
 
+        <!-- 🔥 ESTE FALTABA -->
+        <p id="venta-razon-social" class="text-sm text-gray-600 mb-4"></p>
+
         <form method="POST" action="{{ route('ventas.store') }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
@@ -57,7 +60,8 @@
 
             <!-- ================= DATOS EMPRESA ================= -->
             <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="ruc" placeholder="RUC"
+                <!-- 🔥 ID AGREGADO -->
+                <input type="text" name="ruc" id="venta-ruc" placeholder="RUC"
                        class="border rounded-xl px-3 py-2 text-sm">
 
                 <input type="text" name="razon_social" placeholder="Razón Social"
@@ -72,11 +76,13 @@
                     <option>CE</option>
                 </select>
 
-                <input type="text" name="numero_documento" placeholder="Nro Documento"
+                <!-- 🔥 ID AGREGADO -->
+                <input type="text" name="numero_documento" id="venta-dni" placeholder="Nro Documento"
                        class="border rounded-xl px-3 py-2 text-sm">
 
                 <div class="col-span-2">
-                    <input type="text" name="nombre_representante" placeholder="Nombre Representante"
+                    <!-- 🔥 ID AGREGADO -->
+                    <input type="text" name="nombre_representante" id="venta-nombre" placeholder="Nombre Representante"
                            class="border rounded-xl px-3 py-2 text-sm w-full">
                 </div>
 
