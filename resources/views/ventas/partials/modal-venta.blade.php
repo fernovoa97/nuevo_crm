@@ -3,7 +3,6 @@
 
         <h3 class="text-lg font-bold text-black mb-4">💼 Registrar Venta</h3>
 
-        <!-- 🔥 ESTE FALTABA -->
         <p id="venta-razon-social" class="text-sm text-gray-600 mb-4"></p>
 
         <form method="POST" action="{{ route('ventas.store') }}" enctype="multipart/form-data" class="space-y-4">
@@ -13,7 +12,7 @@
 
             <!-- ================= PRODUCTO ================= -->
             <div>
-                <label class="text-xs font-semibold text-gray-500 uppercase">Producto</label>
+                <label class="text-xs font-bold text-gray-600">📌 Producto (Tipo de servicio a vender)</label>
                 <select name="producto" id="producto"
                     class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
                     <option value="">Seleccionar</option>
@@ -26,7 +25,7 @@
             <div class="grid grid-cols-2 gap-4">
 
                 <div>
-                    <label class="text-xs font-semibold">Tipo de Venta</label>
+                    <label class="text-xs font-bold text-gray-600">📌 Tipo de Venta (Cómo se genera la venta)</label>
                     <select name="tipo_venta" class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
                         <option>PORTABILIDAD</option>
                         <option>ALTA NUEVA</option>
@@ -35,7 +34,7 @@
                 </div>
 
                 <div>
-                    <label class="text-xs font-semibold">Tipo de Ingreso</label>
+                    <label class="text-xs font-bold text-gray-600">📌 Tipo de Ingreso (Origen de la venta)</label>
                     <select name="tipo_ingreso"
                             onchange="toggleContrato()"
                             class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
@@ -49,7 +48,7 @@
 
             <!-- ================= ESTADO CONTRATO ================= -->
             <div id="campo-contrato" class="hidden">
-                <label class="text-xs font-semibold">Estado de Contrato</label>
+                <label class="text-xs font-bold text-gray-600">📌 Estado del Contrato (Seguimiento interno)</label>
                 <select name="estado_contrato" class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
                     <option>PENDIENTE DE LOTEO</option>
                     <option>PENDIENTE DE RESPUESTA EN SIGEX</option>
@@ -60,62 +59,93 @@
 
             <!-- ================= DATOS EMPRESA ================= -->
             <div class="grid grid-cols-2 gap-4">
-                <!-- 🔥 ID AGREGADO -->
-                <input type="text" name="ruc" id="venta-ruc" placeholder="RUC"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">🏢 RUC de la empresa cliente</label>
+                    <input type="text" name="ruc" id="venta-ruc"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
 
-                <input type="text" name="razon_social" placeholder="Razón Social"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">🏢 Razón Social (Nombre de la empresa)</label>
+                    <input type="text" name="razon_social"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
             </div>
 
             <!-- ================= REPRESENTANTE ================= -->
             <div class="grid grid-cols-2 gap-4">
 
-                <select name="tipo_documento" class="border rounded-xl px-3 py-2 text-sm">
-                    <option>DNI</option>
-                    <option>CE</option>
-                </select>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">👤 Tipo de Documento</label>
+                    <select name="tipo_documento" class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                        <option>DNI</option>
+                        <option>CE</option>
+                    </select>
+                </div>
 
-                <!-- 🔥 ID AGREGADO -->
-                <input type="text" name="numero_documento" id="venta-dni" placeholder="Nro Documento"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">👤 Número de Documento</label>
+                    <input type="text" name="numero_documento" id="venta-dni"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
 
                 <div class="col-span-2">
-                    <!-- 🔥 ID AGREGADO -->
-                    <input type="text" name="nombre_representante" id="venta-nombre" placeholder="Nombre Representante"
-                           class="border rounded-xl px-3 py-2 text-sm w-full">
+                    <label class="text-xs font-bold text-gray-600">👤 Nombre del Representante</label>
+                    <input type="text" name="nombre_representante" id="venta-nombre"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
                 </div>
 
             </div>
 
             <!-- ================= CONTACTO ================= -->
             <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="correo" placeholder="Correo"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📧 Correo de contacto</label>
+                    <input type="text" name="correo"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
 
-                <input type="text" name="telefono_referencia" placeholder="Teléfono"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📞 Teléfono de referencia</label>
+                    <input type="text" name="telefono_referencia"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
             </div>
 
             <!-- ================= DIRECCIONES ================= -->
             <div class="space-y-2">
-                <input type="text" name="direccion_facturacion" placeholder="Dirección Facturación"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📍 Dirección de Facturación</label>
+                    <input type="text" name="direccion_facturacion"
+                           class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                </div>
 
-                <input type="text" name="direccion_entrega" placeholder="Dirección Entrega / Instalación"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📍 Dirección de Instalación / Entrega</label>
+                    <input type="text" name="direccion_entrega"
+                           class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                </div>
 
-                <input type="text" name="referencias" placeholder="Referencias"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📍 Referencias de ubicación</label>
+                    <input type="text" name="referencias"
+                           class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                </div>
             </div>
 
             <!-- ================= GEO ================= -->
             <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="coordenadas" placeholder="Coordenadas"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">🌎 Coordenadas (Google Maps)</label>
+                    <input type="text" name="coordenadas"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
 
-                <input type="text" name="plano" placeholder="Plano"
-                       class="border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">🗺 Plano / Croquis</label>
+                    <input type="text" name="plano"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                </div>
             </div>
 
             <!-- ================= BLOQUE MOVIL ================= -->
@@ -123,43 +153,62 @@
 
                 <h4 class="text-sm font-bold text-[#00AEEF]">📱 Datos Móvil</h4>
 
-                <input type="text" name="plan" placeholder="Plan(es) solicitados"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📱 Plan(es) solicitados</label>
+                    <input type="text" name="plan"
+                           class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                </div>
 
-                <select name="operador" class="w-full border rounded-xl px-3 py-2 text-sm">
-                    <option>ENTEL</option>
-                    <option>MOVISTAR</option>
-                    <option>BITEL</option>
-                    <option>OTROS</option>
-                </select>
-
-                <input type="text" name="large" placeholder="Large"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
-
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="date" name="fecha_despacho"
-                           class="border rounded-xl px-3 py-2 text-sm">
-
-                    <select name="rango_horario" class="border rounded-xl px-3 py-2 text-sm">
-                        <option>SLA 3H</option>
-                        <option>AM1</option>
-                        <option>AM2</option>
-                        <option>PM1</option>
-                        <option>PM2</option>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📱 Operador actual</label>
+                    <select name="operador" class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                        <option>ENTEL</option>
+                        <option>MOVISTAR</option>
+                        <option>BITEL</option>
+                        <option>OTROS</option>
                     </select>
                 </div>
 
-                <select name="descuento"
-                        onchange="toggleDescuento()"
-                        class="border rounded-xl px-3 py-2 text-sm">
-                    <option>NO APLICA</option>
-                    <option>50%</option>
-                    <option>DCTO BAJO PLANTILLA</option>
-                </select>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">📱 Large (código interno)</label>
+                    <input type="text" name="large"
+                           class="mt-1 w-full border rounded-xl px-3 py-2 text-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-600">📅 Fecha de despacho</label>
+                        <input type="date" name="fecha_despacho"
+                               class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-gray-600">⏰ Rango horario</label>
+                        <select name="rango_horario" class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                            <option>SLA 3H</option>
+                            <option>AM1</option>
+                            <option>AM2</option>
+                            <option>PM1</option>
+                            <option>PM2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-600">💰 Tipo de descuento</label>
+                    <select name="descuento"
+                            onchange="toggleDescuento()"
+                            class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
+                        <option>NO APLICA</option>
+                        <option>50%</option>
+                        <option>DCTO BAJO PLANTILLA</option>
+                    </select>
+                </div>
 
                 <div id="campo-wf" class="hidden">
-                    <input type="text" name="nro_wf" placeholder="Nro WF"
-                           class="border rounded-xl px-3 py-2 text-sm w-full">
+                    <label class="text-xs font-bold text-gray-600">📄 Número WF</label>
+                    <input type="text" name="nro_wf"
+                           class="mt-1 border rounded-xl px-3 py-2 text-sm w-full">
                 </div>
 
             </div>
@@ -169,50 +218,53 @@
 
                 <h4 class="text-sm font-bold text-black">🏠 Datos Fija</h4>
 
-                <input type="text" name="coordenadas_factibilidad" placeholder="Coordenadas Factibilidad"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📍 Coordenadas de factibilidad</label>
+                <input type="text" name="coordenadas_factibilidad" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="plano_factibilidad" placeholder="Plano Factibilidad"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">🗺 Plano de factibilidad</label>
+                <input type="text" name="plano_factibilidad" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="direccion_instalacion" placeholder="Dirección Instalación"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📍 Dirección de instalación</label>
+                <input type="text" name="direccion_instalacion" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="referencia_direccion" placeholder="Referencia Dirección"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📍 Referencia de dirección</label>
+                <input type="text" name="referencia_direccion" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="telefono_sot" placeholder="Teléfono SOT"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📞 Teléfono SOT</label>
+                <input type="text" name="telefono_sot" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="date" name="fecha_programacion"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📅 Fecha de programación</label>
+                <input type="date" name="fecha_programacion" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="plan_fija" placeholder="Plan elegido"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">📦 Plan contratado</label>
+                <input type="text" name="plan_fija" class="w-full border rounded-xl px-3 py-2 text-sm">
 
-                <input type="text" name="precio" placeholder="Precio servicio"
-                       class="w-full border rounded-xl px-3 py-2 text-sm">
+                <label class="text-xs font-bold text-gray-600">💰 Precio del servicio</label>
+                <input type="text" name="precio" class="w-full border rounded-xl px-3 py-2 text-sm">
 
+                <label class="text-xs font-bold text-gray-600">🔌 Tecnología</label>
                 <select name="tecnologia" class="w-full border rounded-xl px-3 py-2 text-sm">
                     <option>HFC</option>
                     <option>FTTH</option>
                 </select>
 
+                <label class="text-xs font-bold text-gray-600">📦 Full Claro</label>
                 <select name="full_claro" onchange="toggleFullClaro()" class="w-full border rounded-xl px-3 py-2 text-sm">
                     <option>NO APLICA</option>
                     <option>APLICA</option>
                 </select>
 
                 <div id="campo-fullclaro" class="hidden">
-                    <input type="text" name="numero_fullclaro" placeholder="Número Full Claro"
-                           class="w-full border rounded-xl px-3 py-2 text-sm">
+                    <label class="text-xs font-bold text-gray-600">📞 Número Full Claro</label>
+                    <input type="text" name="numero_fullclaro" class="w-full border rounded-xl px-3 py-2 text-sm">
                 </div>
 
             </div>
 
             <!-- ================= ARCHIVOS ================= -->
             <div>
-                <input type="file" name="archivos[]" multiple class="w-full text-sm">
+                <label class="text-xs font-bold text-gray-600">📎 Adjuntar archivos (contratos, fotos, etc.)</label>
+                <input type="file" name="archivos[]" multiple class="w-full text-sm mt-1">
             </div>
 
             <!-- ================= BOTONES ================= -->

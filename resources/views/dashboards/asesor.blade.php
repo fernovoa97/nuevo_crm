@@ -297,7 +297,33 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @foreach($leadsVenta as $lead)
-                                @php $venta = $lead->ventas->first(); @endphp
+                                                            @if($lead->ventas->count())
+                                @foreach($lead->ventas as $venta)
+                                    <div class="mb-2 border rounded-lg p-2 bg-gray-50">
+
+                                        <div class="flex justify-between items-center">
+                                            <span class="px-2 py-1 rounded-lg text-xs font-semibold {{ $venta->estadoBadge() }}">
+                                                {{ $venta->estadoLabel() }}
+                                            </span>
+
+                                            <button onclick="abrirModalEditarVenta({{ $venta->id }})"
+                                                class="text-xs bg-black text-white px-2 py-1 rounded">
+                                                ✏ Editar
+                                            </button>
+                                        </div>
+
+                                        <div class="text-xs mt-1">
+                                            <p><strong>Etapa:</strong> {{ $venta->etapa }}</p>
+                                            <p class="text-red-500">{{ $venta->observaciones }}</p>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                            @else
+                                <span class="px-2 py-1 rounded-lg text-xs bg-gray-100 text-gray-500">
+                                    Sin venta
+                                </span>
+                            @endif
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="p-3">
                                         <button onclick="abrirModalVenta({{ $lead->id }}, '{{ addslashes($lead->razon_social) }}', '{{ $lead->ruc }}', '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}')"                                            class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
