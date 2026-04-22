@@ -300,8 +300,7 @@
                                 @php $venta = $lead->ventas->first(); @endphp
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="p-3">
-                                        <button onclick="abrirModalVenta({{ $lead->id }}, '{{ addslashes($lead->razon_social) }}', '{{ $lead->ruc }}')"
-                                            class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
+                                        <button onclick="abrirModalVenta({{ $lead->id }}, '{{ addslashes($lead->razon_social) }}', '{{ $lead->ruc }}', '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}')"                                            class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
                                             💼 Enviar venta
                                         </button>
                                     </td>
@@ -437,12 +436,10 @@
                     </div>
                     <div>
                         <label class="text-xs font-semibold text-gray-500 uppercase">DNI Representante</label>
-                        <input type="text" name="dni_representante" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
+                        <input type="text" name="dni_representante" id="venta-dni" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">                    </div>
                     <div class="col-span-2">
                         <label class="text-xs font-semibold text-gray-500 uppercase">Nombre Representante</label>
-                        <input type="text" name="nombre_representante" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
-                    </div>
+                        <input type="text" name="nombre_representante" id="venta-nombre" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">                    </div>
                     <div>
                         <label class="text-xs font-semibold text-gray-500 uppercase">Cargo Fijo (S/)</label>
                         <input type="number" name="cargo_fijo" step="0.01" min="0" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
@@ -464,7 +461,10 @@
                         <select name="supervisor_id" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00AEEF] outline-none">
                             <option value="">Sin supervisor</option>
                             @foreach(\App\Models\User::where('role', 'supervisor')->get() as $sup)
-                                <option value="{{ $sup->id }}">{{ $sup->name }}</option>
+                                <option value="{{ $sup->id }}"
+                                    {{ auth()->user()->parent_id == $sup->id ? 'selected' : '' }}>
+                                    {{ $sup->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -542,10 +542,12 @@
             if (e.target === this) cerrarModalSeguimiento();
         });
 
-        function abrirModalVenta(leadId, razonSocial, ruc) {
+        function abrirModalVenta(leadId, razonSocial, ruc, nombre, dni) {
             document.getElementById('venta-lead-id').value            = leadId;
             document.getElementById('venta-razon-social').textContent = razonSocial + ' — RUC: ' + ruc;
             document.getElementById('venta-ruc').value                = ruc;
+            document.getElementById('venta-nombre').value             = nombre;
+            document.getElementById('venta-dni').value                = dni;
             document.getElementById('modal-venta').classList.remove('hidden');
         }
 
