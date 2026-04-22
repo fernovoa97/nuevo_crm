@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Venta;
 use App\Models\Lead;
 use App\Models\Notificacion;
@@ -19,16 +18,18 @@ class VentaController extends Controller
         // ================= VALIDACIÓN =================
         $request->validate([
             'lead_id'        => 'required|exists:leads,id',
-            'tipo_producto'  => 'required|in:movil,fija',
+            'producto'       => 'required|in:movil,fija',
 
             'tipo_venta'     => 'required|string|max:100',
             'tipo_ingreso'   => 'required|string|max:100',
 
-            'estado_contrato' => 'nullable|string|max:100',
+            'estado_contrato'=> 'nullable|string|max:100',
 
-            // comunes
-            'ruc_empresa'    => 'nullable|string|max:20',
+            // generales
+            'ruc'                => 'nullable|string|max:20',
+            'razon_social'       => 'nullable|string|max:255',
             'nombre_representante' => 'nullable|string|max:255',
+            'numero_documento'   => 'nullable|string|max:20',
 
             // archivos
             'archivos.*'     => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
@@ -55,73 +56,69 @@ class VentaController extends Controller
         $data = [
             'lead_id'        => $request->lead_id,
             'asesor_id'      => $user->id,
-            'supervisor_id'  => $request->supervisor_id,
+            'supervisor_id'  => $request->supervisor_id ?? null,
 
-            'tipo_producto'  => $request->tipo_producto,
+            'tipo_producto'  => $request->producto,
             'tipo_venta'     => $request->tipo_venta,
             'tipo_ingreso'   => $request->tipo_ingreso,
             'estado_contrato'=> $request->estado_contrato,
 
-            'ruc_empresa'    => $request->ruc_empresa,
+            'ruc_empresa'    => $request->ruc,
+            'razon_social'   => $request->razon_social,
             'nombre_representante' => $request->nombre_representante,
+            'dni_representante'    => $request->numero_documento,
 
             'estado'         => 'en_cola',
             'archivos'       => !empty($archivos) ? $archivos : null,
         ];
 
-        // ================= DATOS MOVIL =================
-        if ($request->tipo_producto === 'movil') {
+        // ================= MOVIL =================
+        if ($request->producto === 'movil') {
             $data = array_merge($data, [
 
-                'movil_tipo_documento' => $request->movil_tipo_documento,
-                'movil_nro_documento'  => $request->movil_nro_documento,
-                'movil_rrll'           => $request->movil_rrll,
-                'movil_correo'         => $request->movil_correo,
+                'movil_tipo_documento' => $request->tipo_documento,
+                'movil_nro_documento'  => $request->numero_documento,
+                'movil_correo'         => $request->correo,
 
-                'movil_coordenadas'    => $request->movil_coordenadas,
-                'movil_plano'          => $request->movil_plano,
-                'movil_direccion_facturacion' => $request->movil_direccion_facturacion,
-                'movil_direccion_entrega'     => $request->movil_direccion_entrega,
-                'movil_referencias'    => $request->movil_referencias,
-                'movil_telefono_referencia' => $request->movil_telefono_referencia,
+                'movil_coordenadas'    => $request->coordenadas,
+                'movil_plano'          => $request->plano,
+                'movil_direccion_facturacion' => $request->direccion_facturacion,
+                'movil_direccion_entrega'     => $request->direccion_entrega,
+                'movil_referencias'    => $request->referencias,
+                'movil_telefono_referencia' => $request->telefono_referencia,
 
-                'movil_plan'           => $request->movil_plan,
-                'movil_operador_cedente' => $request->movil_operador_cedente,
-                'movil_campana'        => $request->movil_campana,
-                'movil_large'          => $request->movil_large,
+                'movil_plan'           => $request->plan,
+                'movil_operador_cedente' => $request->operador,
+                'movil_large'          => $request->large,
 
-                'movil_fecha_despacho' => $request->movil_fecha_despacho,
-                'movil_rango_horario'  => $request->movil_rango_horario,
+                'movil_fecha_despacho' => $request->fecha_despacho,
+                'movil_rango_horario'  => $request->rango_horario,
 
-                'movil_descuento'      => $request->movil_descuento,
-                'movil_wf'             => $request->movil_wf,
+                'movil_descuento'      => $request->descuento,
+                'movil_wf'             => $request->nro_wf,
             ]);
         }
 
-        // ================= DATOS FIJA =================
-        if ($request->tipo_producto === 'fija') {
+        // ================= FIJA =================
+        if ($request->producto === 'fija') {
             $data = array_merge($data, [
 
-                'fija_correo'          => $request->fija_correo,
-                'fija_coordenadas'     => $request->fija_coordenadas,
-                'fija_plano'           => $request->fija_plano,
+                'fija_correo'          => $request->correo,
+                'fija_coordenadas'     => $request->coordenadas_factibilidad,
+                'fija_plano'           => $request->plano_factibilidad,
 
-                'fija_direccion'       => $request->fija_direccion,
-                'fija_referencia'      => $request->fija_referencia,
+                'fija_direccion'       => $request->direccion_instalacion,
+                'fija_referencia'      => $request->referencia_direccion,
 
-                'fija_tel_facturacion' => $request->fija_tel_facturacion,
-                'fija_tel_sot'         => $request->fija_tel_sot,
+                'fija_tel_sot'         => $request->telefono_sot,
+                'fija_fecha_programacion' => $request->fecha_programacion,
 
-                'fija_fecha_programacion' => $request->fija_fecha_programacion,
+                'fija_plan'            => $request->plan_fija,
+                'fija_precio'          => $request->precio,
 
-                'fija_plan'            => $request->fija_plan,
-                'fija_precio'          => $request->fija_precio,
-                'fija_campana'         => $request->fija_campana,
-                'fija_bono'            => $request->fija_bono,
-
-                'fija_tecnologia'      => $request->fija_tecnologia,
-                'fija_full_claro'      => $request->fija_full_claro,
-                'fija_numero_full_claro' => $request->fija_numero_full_claro,
+                'fija_tecnologia'      => $request->tecnologia,
+                'fija_full_claro'      => $request->full_claro,
+                'fija_numero_full_claro' => $request->numero_fullclaro,
             ]);
         }
 
@@ -167,7 +164,7 @@ class VentaController extends Controller
 
         $venta = Venta::findOrFail($id);
 
-        // subir archivos adicionales
+        // archivos nuevos
         if ($request->hasFile('archivos')) {
             $archivosActuales = $venta->archivos ?? [];
 
@@ -189,7 +186,7 @@ class VentaController extends Controller
         $venta->observaciones = $request->observaciones;
         $venta->save();
 
-        // notificación observaciones
+        // notificación
         if ($request->filled('observaciones')) {
             Notificacion::create([
                 'user_id' => $venta->asesor_id,
@@ -199,7 +196,6 @@ class VentaController extends Controller
             ]);
         }
 
-        // notificación estado final
         if (in_array($request->estado, ['completada', 'rechazada'])) {
             $label = $request->estado === 'completada' ? '✅ aprobada' : '❌ rechazada';
 

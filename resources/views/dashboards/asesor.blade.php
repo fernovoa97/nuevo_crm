@@ -282,6 +282,7 @@
                 <p class="text-xs font-semibold text-black uppercase tracking-wide mb-4">
                     💼 Propuestas Enviadas ({{ $leadsVenta->total() }})
                 </p>
+
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm text-black">
                         <thead class="bg-black text-white">
@@ -295,60 +296,108 @@
                                 <th class="p-3 text-left">Observaciones</th>
                             </tr>
                         </thead>
+
                         <tbody class="divide-y divide-gray-100">
+
                             @foreach($leadsVenta as $lead)
-                                                            @if($lead->ventas->count())
-                                @foreach($lead->ventas as $venta)
-                                    <div class="mb-2 border rounded-lg p-2 bg-gray-50">
 
-                                        <div class="flex justify-between items-center">
-                                            <span class="px-2 py-1 rounded-lg text-xs font-semibold {{ $venta->estadoBadge() }}">
-                                                {{ $venta->estadoLabel() }}
-                                            </span>
+                                <!-- SI TIENE VENTAS -->
+                                @if($lead->ventas->isNotEmpty())
 
-                                            <button onclick="abrirModalEditarVenta({{ $venta->id }})"
-                                                class="text-xs bg-black text-white px-2 py-1 rounded">
-                                                ✏ Editar
+                                    @foreach($lead->ventas as $venta)
+                                        <tr class="hover:bg-gray-50 transition">
+
+                                            <!-- ACCIONES -->
+                                            <td class="p-3">
+                                                <div class="flex gap-2">
+
+                                                    <!-- NUEVA VENTA -->
+                                                    <button onclick="abrirModalVenta(
+                                                        {{ $lead->id }},
+                                                        '{{ e($lead->razon_social) }}',
+                                                        '{{ $lead->ruc }}',
+                                                        '{{ e($lead->nombre) }}',
+                                                        '{{ $lead->dni }}'
+                                                    )"
+                                                    class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
+                                                        💼 Nueva
+                                                    </button>
+
+                                                    <!-- EDITAR -->
+                                                    <button onclick="abrirModalEditarVenta({{ $venta->id }})"
+                                                        class="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded text-xs">
+                                                        ✏ Editar
+                                                    </button>
+
+                                                </div>
+                                            </td>
+
+                                            <!-- DATOS -->
+                                            <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                            <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                            <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
+
+                                            <!-- ESTADO -->
+                                            <td class="p-3">
+                                                <span class="px-2 py-1 rounded-lg text-xs font-semibold {{ $venta->estadoBadge() }}">
+                                                    {{ $venta->estadoLabel() }}
+                                                </span>
+                                            </td>
+
+                                            <!-- ETAPA -->
+                                            <td class="p-3 text-xs">
+                                                {{ $venta->etapa ?? '-' }}
+                                            </td>
+
+                                            <!-- OBS -->
+                                            <td class="p-3 text-xs text-red-500">
+                                                {{ $venta->observaciones ?? '-' }}
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+
+                                @else
+
+                                    <!-- SIN VENTAS -->
+                                    <tr class="hover:bg-gray-50 transition">
+
+                                        <td class="p-3">
+                                            <button onclick="abrirModalVenta(
+                                                {{ $lead->id }},
+                                                '{{ e($lead->razon_social) }}',
+                                                '{{ $lead->ruc }}',
+                                                '{{ e($lead->nombre) }}',
+                                                '{{ $lead->dni }}'
+                                            )"
+                                            class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
+                                                💼 Crear venta
                                             </button>
-                                        </div>
+                                        </td>
 
-                                        <div class="text-xs mt-1">
-                                            <p><strong>Etapa:</strong> {{ $venta->etapa }}</p>
-                                            <p class="text-red-500">{{ $venta->observaciones }}</p>
-                                        </div>
+                                        <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
+                                        <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
+                                        <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
 
-                                    </div>
-                                @endforeach
-                            @else
-                                <span class="px-2 py-1 rounded-lg text-xs bg-gray-100 text-gray-500">
-                                    Sin venta
-                                </span>
-                            @endif
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="p-3">
-                                        <button onclick="abrirModalVenta({{ $lead->id }}, '{{ addslashes($lead->razon_social) }}', '{{ $lead->ruc }}', '{{ addslashes($lead->nombre) }}', '{{ $lead->dni }}')"                                            class="bg-black hover:bg-gray-800 text-white px-2 py-1 rounded-lg text-xs font-semibold transition">
-                                            💼 Enviar venta
-                                        </button>
-                                    </td>
-                                    <td class="p-3">{{ $lead->ruc ?? '-' }}</td>
-                                    <td class="p-3">{{ $lead->razon_social ?? '-' }}</td>
-                                    <td class="p-3 font-medium">{{ $lead->nombre ?? '-' }}</td>
-                                    <td class="p-3">
-                                        @if($venta)
-                                            <span class="px-2 py-1 rounded-lg text-xs font-semibold {{ $venta->estadoBadge() }}">
-                                                {{ $venta->estadoLabel() }}
+                                        <td class="p-3">
+                                            <span class="px-2 py-1 rounded-lg text-xs bg-gray-100 text-gray-500">
+                                                Sin venta
                                             </span>
-                                        @else
-                                            <span class="px-2 py-1 rounded-lg text-xs bg-gray-100 text-gray-500">Sin venta</span>
-                                        @endif
-                                    </td>
-                                    <td class="p-3 text-xs">{{ $venta?->etapa ?? '-' }}</td>
-                                    <td class="p-3 text-xs text-red-500">{{ $venta?->observaciones ?? '-' }}</td>
-                                </tr>
+                                        </td>
+
+                                        <td class="p-3 text-xs">-</td>
+                                        <td class="p-3 text-xs">-</td>
+
+                                    </tr>
+
+                                @endif
+
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>
+
                 <div class="mt-6">{{ $leadsVenta->links() }}</div>
             </div>
 
