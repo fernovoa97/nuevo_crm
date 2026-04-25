@@ -96,4 +96,20 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', 'Usuario actualizado correctamente');
     }
+
+    public function destroy(User $user)
+{
+    if (auth()->user()->role !== 'admin') {
+        abort(403);
+    }
+
+    // Evitar que se elimine a sí mismo (opcional pero recomendado)
+    if ($user->id === auth()->id()) {
+        return back()->with('error', 'No puedes eliminarte a ti mismo');
+    }
+
+    $user->delete();
+
+    return back()->with('success', 'Usuario eliminado correctamente');
+}
 }
