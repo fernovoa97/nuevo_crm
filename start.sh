@@ -3,16 +3,30 @@ set -e
 
 echo "🚀 Iniciando aplicación..."
 
-# Cachear config para mejor rendimiento
+# 🔥 LIMPIEZA TOTAL (clave)
 php artisan config:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
 
-# Ejecutar migraciones + seeders
+# 🔍 DEBUG (temporal)
+echo "DB HOST:"
+php artisan tinker --execute="echo config('database.connections.mysql.host');"
+
+echo "DB NAME:"
+php artisan tinker --execute="echo config('database.connections.mysql.database');"
+
+# Cachear config
+php artisan config:cache
+
+# Migraciones + seed
 echo "📦 Ejecutando migraciones y seeders..."
 php artisan migrate --force --seed
 
-# Iniciar servidor
+# Verificar usuarios
+echo "👤 Users count:"
+php artisan tinker --execute="echo \App\Models\User::count();"
+
+# Servidor
 echo "🌐 Levantando servidor..."
 php artisan serve --host=0.0.0.0 --port=$PORT
